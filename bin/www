@@ -6,9 +6,10 @@
 
 require("dotenv").config();
 var app = require('../app');
-var debug = require('debug')('backend:server');
+var connect = require('../socketIO/actions');
+var debug = require('debug')('PRESENTIT:www');
 var http = require('http');
-
+const { Server } = require("socket.io");
 /**
  * Get port from environment and store in Express.
  */
@@ -21,6 +22,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+//Setting up Socket.IO
+const socketIO = connect(new Server(server));
+//Uncomment this line so you can get the socketIO en API request by req.app.get('socketio')
+// app.set('socketio', socketIO);
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -88,4 +95,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  // console.log("hey there");
 }

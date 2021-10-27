@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon --watch ./"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,8 +13,11 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "method-override": "^3.0.0",
     "morgan": "~1.9.1",
+    "nodemon": "^2.0.14",
     "rotating-file-stream": "^2.1.3",
+    "socket.io": "^4.3.1",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0"
   }

@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var methodOverride = require("method-override");
+var debug = require("debug")("PRESENTIT:app");
 // var logger2 = require('./logger').child({ from: 'ExampleOfUsingWinston' }); // You should reference the logger folder at the root of the repository depending on the level
-
 //SHould add "debug"
 //SHould add "method-override"
 
