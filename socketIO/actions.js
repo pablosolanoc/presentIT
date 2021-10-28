@@ -6,7 +6,6 @@ function connect(socketIO){
             socketIO.emit('chat message', msg);
         });
     });
-
     return socketIO;
 }
 
