@@ -1,3 +1,5 @@
+require('./firebase/firebaseClient');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,14 +7,53 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var methodOverride = require("method-override");
 var debug = require("debug")("PRESENTIT:app");
+var cors = require('cors');
+
+var session = require("express-session");
+
 // var logger2 = require('./logger').child({ from: 'ExampleOfUsingWinston' }); // You should reference the logger folder at the root of the repository depending on the level
 //SHould add "debug"
 //SHould add "method-override"
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
 
 var app = express();
+
+if(`${process.env.NODE_ENV}` === 'production'){
+  
+  debug('production');
+  app.use(cors({origin: "https://presentit.com", credentials: true})); // Use this in production
+  //hola
+  var sessionConfig = {
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      httpOnly: true,
+      // maxAge: 15 * 1000 ,
+      maxAge: 60 * 1000 * 60 * 4 ,
+    }
+  };
+}else{
+  debug('development');
+  app.use(
+    cors({origin: "http://localhost:3000", credentials: true, })); // Use this in local enviroment
+  var sessionConfig = {
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      httpOnly: true,
+      // maxAge: 15 * 1000 ,
+      maxAge: 60 * 1000 * 60 * 4 ,
+    },
+    // store: sessionStore //Enable this on production
+  };
+  
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,8 +92,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 
-app.use('/', indexRouter);
+
+app.use(session(sessionConfig));
+app.use('/action', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

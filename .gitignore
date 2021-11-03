@@ -2,3 +2,7 @@ node_modules/
 .env
 logs/
 yarn.lock
+
+log.txt
+firebase/firebaseClient.js
+presentit-frontend/env.local
