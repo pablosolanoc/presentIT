@@ -1,4 +1,4 @@
-require('./firebase/firebaseClient');
+require('./utils/firebase/firebaseClient');
 
 var createError = require('http-errors');
 var express = require('express');
@@ -18,6 +18,7 @@ var session = require("express-session");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+var driveRouter = require('./routes/drive');
 
 var app = express();
 
@@ -97,6 +98,7 @@ app.use(session(sessionConfig));
 app.use('/action', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/drive', driveRouter);
 
 
 

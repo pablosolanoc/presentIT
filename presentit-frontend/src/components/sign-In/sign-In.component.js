@@ -6,14 +6,17 @@ const SignIn = () => {
 
     return(
         <div>
+            
             <button >
             {/* <button > */}
                 SIGN IN WITH GOOGLE
             </button>
-            <button >
-            {/* <button > */}
-                SIGN OUT
-            </button>
+            <a href='http://localhost:8000/login/logout'>
+                <button >
+                {/* <button > */}
+                    SIGN OUT
+                </button>
+            </a>
             <button >
             {/* <button > */}
                 Refresh

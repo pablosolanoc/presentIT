@@ -1,9 +1,7 @@
-import UserActionTypes from './user.types';
+import {UserActionTypes} from './user.types';
 
 const INITIAL_STATE = {
-    user: null,
-    accessToken: null,
-    refreshToken: null
+    currentUser: null
 }
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +9,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         case UserActionTypes.SET_CURRENT_USER:
             return {
                 ...state,
-                user: action.payload
+                currentUser: action.payload
             };
         case UserActionTypes.SET_CURRENT_ACCESS_TOKEN:
             return {

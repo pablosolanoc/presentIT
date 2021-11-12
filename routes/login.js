@@ -75,8 +75,12 @@ router.get('/redirect', function(req, res){
                      //Add the tokens to the user session
                      req.session.user = {
                         refresh_token: token.refresh_token,
-                        acces_token: token.access_token
+                        access_token: token.access_token,
+                        info: {
+                            given_name, family_name, picture
+                        }
                      };
+                     debug(req.session)
                      //If user exists do nothing, if it doesnt create one in database
                      if (!specificUser.exists) {
                         debug('No document');
@@ -95,6 +99,27 @@ router.get('/redirect', function(req, res){
         })
     }
     
+});
+
+
+router.get('/info', function(req, res){
+    // debug(req.session);
+    try{
+        // debug('hello');
+        const {info} = req.session.user;
+        // debug(info);
+        res.send(info);
+    }catch(error){
+        // debug(error);
+        res.status(204);
+        res.send('204: No user info');
+    }
+    
+});
+
+router.get('/logout', function(req, res){
+    req.session.destroy();
+    res.redirect(`${process.env.FRONT_END_ROUTE}`);
 });
 
 module.exports = router;

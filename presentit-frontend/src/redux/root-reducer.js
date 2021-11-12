@@ -1,9 +1,21 @@
 
 import userReducer from './user/user.reducer';
-import {combineReducer} from 'redux';
+import structureReducer from './structure/structure.reducer';
+import {combineReducers} from 'redux';
+import storage from 'redux-persist/lib/storage';
 
-const rootReducer = combineReducer({
+import  {persistReducer} from 'redux-persist';
+
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['user', 'structure']
+}
+
+const rootReducer = combineReducers({
     user: userReducer,
+    structure: structureReducer
 })
 
-export default rootReducer;
+export default persistReducer(persistConfig, rootReducer);

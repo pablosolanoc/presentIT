@@ -1,0 +1,7 @@
+
+export const StructureActionTypes = {
+    ADD_TO_PATH: 'ADD_TO_PATH',
+    SET_CURRENT_FOLDER_ID: 'SET_CURRENT_FOLDER_ID',
+    REMOVE_FROM_PATH: 'REMOVE_FROM_PATH',
+    SET_PATH_FROM: 'SET_PATH_FROM'
+}
