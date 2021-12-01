@@ -57,9 +57,9 @@ const filesCallRoot = async (drive, folderid) => {
     try{
         const ownFiles = {};
         const sharedFiles = {};
-        let aditionalQuery = `or mimeType='application/vnd.google-apps.presentation' and sharedWithMe=true or mimeType='application/pdf' and sharedWithMe=true`
+        let aditionalQuery = `or mimeType='application/vnd.google-apps.presentation' and sharedWithMe=true or mimeType='application/vnd.oasis.opendocument.text' and sharedWithMe=true`
         const response = await drive.files.list({
-            q: `mimeType='application/vnd.google-apps.presentation' and parents in '${folderid}' or mimeType='application/pdf' and parents in '${folderid}' ${aditionalQuery}`,
+            q: `mimeType='application/vnd.google-apps.spreadsheet' and parents in '${folderid}'`,
             fields: 'nextPageToken, files(id, name, shared, fileExtension, viewedByMeTime, sharedWithMeTime)',
         });
         response.data.files.forEach(function (folder) {

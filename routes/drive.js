@@ -29,7 +29,7 @@ router.get('/pdf/', async function(req, res){
         );
 
         oauth2Client.setCredentials({
-            access_token: 'ya29.a0ARrdaM_AMGOt09dMJq5GyLrZRoR6168jhraMU0atpiKbG9gY9AuuxUpYPfp-fh9FMxLs8Oc6c8zfs3jE4hpt-dbE1wUtMhJhd3-IWLehZvV2gtdCMEWqUsg90lCEIYAVdbUalC_5KCWyswKROyUbQhUyGgP_zA',
+            access_token: 'ya29.a0ARrdaM98GjRmhtuwA6-_-HfVImgETiRxwHCqSlwdsxv0V9ialoUYtLc-nM95Ze3pbyLNPeLcv0x2zGX5BiEdKmZqizaBUcYE42i60IeQWw_XBEtjoWjC6TqaZTJ4aPRaOyWQ9ZNMczeS10KkYms1hioUEyF4tg',
         });
 
         const drive =  google.drive({
@@ -42,17 +42,19 @@ router.get('/pdf/', async function(req, res){
         //     fields: 'nextPageToken, files(id, name, shared, fileExtension, viewedByMeTime, sharedWithMeTime)',
         // });
         
+        // This lines download a pdf 
         // const request = await drive.files.get({
-        //     'fileId': '1aEpqrZ1uT3CKjm0MoF8TNh3at-BNoZMg',
-        //     // 'fileId': '14JCCfU6bMahb8uMfJEj7ZeHAkyzOi8PBaZa7NCdvrzs',
+        //     'fileId': '17GXXJkPUbLwMMR6Uwdzn6O84c6SR2JIX4c-qgTPoTI8',
+        //     // 'fileId': '17hnRIF0BHS5SnY5EgeOQCD36HT-4XvY2',
         //     alt: 'media',
             
         // }, 
         // { responseType: 'arraybuffer' }
         // );
 
+        // This lines download a google doc file
         const request = await drive.files.export({
-            fileId: '14JCCfU6bMahb8uMfJEj7ZeHAkyzOi8PBaZa7NCdvrzs',
+            fileId: '1RRjrbf28G1XZr1CUHBdGy7hhaydOopT8Huki5NXn2Yk',
             mimeType: 'application/pdf',
         },
             { responseType: 'arraybuffer' }

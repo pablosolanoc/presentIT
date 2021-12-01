@@ -19,7 +19,7 @@ const getFolderFilesContent = async (req, res) => {
 
     oauth2Client.setCredentials({
         // access_token: accessToken,
-        access_token: 'ya29.a0ARrdaM-LoarfIrpSR7P6KyeQtikNlieOcTvmXW6iYyQms3jzeBjfieAsN6_QDfkPio_3YD0MdxadC5y6MzXSJKx-CF2Y2rqYjjKSnnwRMpBHuy4QCBJrcjPpo5f4LlGFeBn7HN4-uGRBpH1md_C1zoTGj-I4Tg'
+        access_token: 'ya29.a0ARrdaM98GjRmhtuwA6-_-HfVImgETiRxwHCqSlwdsxv0V9ialoUYtLc-nM95Ze3pbyLNPeLcv0x2zGX5BiEdKmZqizaBUcYE42i60IeQWw_XBEtjoWjC6TqaZTJ4aPRaOyWQ9ZNMczeS10KkYms1hioUEyF4tg'
     });
 
     const drive = google.drive({

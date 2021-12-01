@@ -6,7 +6,6 @@ import { setPathFrom } from "../../redux/structure/structure.actions";
 
 const SideBar = ({setDisplayConfig, displayConfig, currentFolderId, setPathFrom}) => {
 
-    let goFull = useRef(null);
 
     const changeTypeFolder = (type) => {
         if(currentFolderId === 'root'){
@@ -17,44 +16,10 @@ const SideBar = ({setDisplayConfig, displayConfig, currentFolderId, setPathFrom}
         }
     }
 
-    const fullScreen = (element) => {
-        console.log(document.fullscreenElement,
-          document.webkitFullscreenElement,
-          document.mozFullScreenElement,
-          document.msFullscreenElement)
-        if (
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement
-          ) {
-            console.log('hey');
-            if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-            }
-          } else {
-            console.log(goFull.current)
-            window.hola = goFull.current;
-            if (goFull.current.requestFullscreen) {
-              goFull.current.requestFullscreen();
-            } else if (goFull.current.mozRequestFullScreen) {
-              goFull.current.mozRequestFullScreen();
-            } else if (goFull.current.webkitRequestFullscreen) {
-              goFull.current.webkitRequestFullscreen(goFull.current.ALLOW_KEYBOARD_INPUT);
-            } else if (goFull.current.msRequestFullscreen) {
-              goFull.current.msRequestFullscreen();
-            }
-          }
-    }
+    
 
     return(
-        <SideBarStyle onClick={fullScreen} ref={goFull}>
+        <SideBarStyle>
             <div className='logo' >
                 <img src='/images/master-favicon.png'></img>
             </div>

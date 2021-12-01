@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 export const CanvasStyle = styled.canvas`
 
-    width: 300px;
-    height: 200px;
+    /* width: 100%; */
+    height: 100%;
 
     background-color: green;
 
