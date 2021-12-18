@@ -1,6 +1,7 @@
 
 import userReducer from './user/user.reducer';
 import structureReducer from './structure/structure.reducer';
+import layoutConfigsReducer from './layoutConfigs/layoutConfigs.reducer';
 import {combineReducers} from 'redux';
 import storage from 'redux-persist/lib/storage';
 
@@ -10,12 +11,13 @@ import  {persistReducer} from 'redux-persist';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'structure']
+    whitelist: ['user', 'structure', 'layoutConfigs']
 }
 
 const rootReducer = combineReducers({
     user: userReducer,
-    structure: structureReducer
+    structure: structureReducer,
+    layoutConfigs: layoutConfigsReducer
 })
 
 export default persistReducer(persistConfig, rootReducer);

@@ -41,12 +41,14 @@ export const TypeLayoutStyle = styled.div`
             background-color: rgba(106, 42, 254, 1);
             box-shadow: 2px 2px 3px rgba(0,0,0, 0.3), -2px -2px 3px rgba(0,0,0, 0.3)
                         , 2px -2px 3px rgba(0,0,0, 0.3), -2px 2px 3px rgba(0,0,0, 0.3);
+
+            fill: white;
         }
 
         .row{
             margin: 4px 2px;
             
-            background-color: white;
+            /* background-color: white; */
             
 
             border-radius: 5px;
@@ -64,7 +66,7 @@ export const TypeLayoutStyle = styled.div`
                 width: 80%;
                 height: auto;
                 border-radius: 2px;
-
+                background-color: black;
                
             }
 
@@ -96,7 +98,7 @@ export const TypeLayoutStyle = styled.div`
             margin: 4px 2px;
             border-radius: 5px;
             
-            fill: white;
+            
 
             display: grid;
             grid-template-columns: 15% 30% 10% 30% 15%;
@@ -106,6 +108,7 @@ export const TypeLayoutStyle = styled.div`
                 width: 100%;
                 height: auto;
                 border-radius: 2px;
+                
             }
 
             #square1{

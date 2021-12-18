@@ -22,8 +22,8 @@ router.get('/', function(req, res){
         //Needs access_type: 'offline' to get refreshToken
         access_type: 'offline',
         //Needs prompt: 'consent' so it will get a refreshToken everytime a user Signs In not only the first time
-        // prompt: 'consent',
-        //Needs prompt: 'scope' to know what it will be able to access different types of GoogleAPIs
+        prompt: 'consent',
+        //Needs prompt: 'scope' to know what APIs it will be able to access from GoogleAPIs
         scope: scopes
     });
     //Redirect to the Google Auth Page
@@ -103,6 +103,7 @@ router.get('/redirect', function(req, res){
 
 
 router.get('/info', function(req, res){
+    // debug('Session: \n\n');
     // debug(req.session);
     try{
         // debug('hello');
@@ -113,8 +114,7 @@ router.get('/info', function(req, res){
         // debug(error);
         res.status(204);
         res.send('204: No user info');
-    }
-    
+    } 
 });
 
 router.get('/logout', function(req, res){

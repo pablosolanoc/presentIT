@@ -6,7 +6,7 @@ import {TableStyle} from  './files.styles';
 //Major Credit to DCode, you can find the sorting algorithm at this link
 // https://codepen.io/dcode-software/pen/zYGOrzK
 
-const Files = ({files}) => {
+const Files = ({files, setPreview}) => {
 
     console.log(files)
 
@@ -58,7 +58,7 @@ const Files = ({files}) => {
     const showFiles = (files) => {
         if(files.length > 0){
             return files.map((file, index) => (
-                    <div key={index} className='row'>
+                    <div key={index} className='row' onClick={() => setPreview(file.id, file.extension === 'pdf' ? true : false)}>
                         <div className='name cell'>
                             <div className='typeFile'>
                                 { file.extension == 'undefined' ? <img src='/images/ppt2.png'></img> : null}
@@ -79,6 +79,8 @@ const Files = ({files}) => {
     useEffect(() => {
         console.log(table); 
     })
+
+    
 
 
     return(

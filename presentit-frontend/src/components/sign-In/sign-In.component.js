@@ -1,28 +1,22 @@
 
 import React from 'react';
 
+import {SignInStyle} from './sign-In.styles';
 
 const SignIn = () => {
 
     return(
-        <div>
-            
-            <button >
-            {/* <button > */}
-                SIGN IN WITH GOOGLE
-            </button>
-            <a href='http://localhost:8000/login/logout'>
-                <button >
-                {/* <button > */}
-                    SIGN OUT
-                </button>
+        <SignInStyle>
+            {/* <a href='http://localhost:8000/login/logout'>
+            </a> */}
+            <a href="http://localhost:8000/login">
+                
+                <div className='buttonSignIn'>
+                    <img src='/images/google.png' ></img>
+                    Sign In with Google
+                </div>
             </a>
-            <button >
-            {/* <button > */}
-                Refresh
-            </button>
-            <a href="http://localhost:8000/login">Sign In</a>
-        </div>
+        </SignInStyle>
     )
 
 } 

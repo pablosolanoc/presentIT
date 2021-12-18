@@ -1,7 +1,11 @@
 import axios from 'axios';
+import { debug } from 'debug';
+import {store} from '../redux/store';
+import {setCurrentUser} from '../redux/user/user.actions';
 
 const handleUnauthorized = (error) => {
     console.log('Handling Unauthorized');
+    store.dispatch(setCurrentUser(null));
 }
 
 const api = axios.create({
@@ -14,8 +18,8 @@ const getRequestAuthorized = async (url, manageOkResponse, config) => {
         const response = await api.get(url, config);
         manageOkResponse(response);
     }catch(error){
-        if(error.status === 401){
-            handleUnauthorized(error, manageOkResponse);
+        if(error.response.status === 401){
+            handleUnauthorized(error);
         }else{
             console.log('Handling Other error');
         }

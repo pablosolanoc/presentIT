@@ -1,27 +1,41 @@
 import styled, {css} from 'styled-components';
 
+const FolderStyle = css`
+    display: flex;
+    background-color: ${p => p.mine ? `rgba(106, 42, 254, 1)` : `rgba(30, 168, 247, 1)`};
+    flex-direction: column;
+    border-radius: 15px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+
+    pointer-events: ${p => p.disabled ? 'none' : 'auto'};
+    /* pointer-events: none; */
+    cursor: pointer;
+
+    &:hover{
+        box-shadow: 10px 10px 10px rgba(0,0,0,0.6);
+        border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    &:active{
+        box-shadow: -6px -6px 10px rgba(0,0,0,0.3), 10px 10px 10px rgba(0,0,0,0.3);
+    }
+`;
+
+export const FolderStyleBig = styled.div`
+
+    ${FolderStyle}
 
 
-export const FolderStyle = styled.div`
     min-width: 15rem;
     padding: 15px;
     /* height: 20vh; */
-    border-radius: 15px;
+    
     margin: 1.3rem 1.5rem;
-    cursor: pointer;
-    background-color: ${p => p.mine ? `rgba(106, 42, 254, 1)` : `rgba(30, 168, 247, 1)`};
     
 
-    display: flex;
-    flex-direction: column;
     align-items: start;
     justify-content: space-evenly;
-
-    transition: all 0.3s ease;
-
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
-
-    
 
     .logos{
         display: flex;
@@ -80,15 +94,53 @@ export const FolderStyle = styled.div`
             fill: white;
         }
     }
-
-    &:hover{
-        box-shadow: 10px 10px 10px rgba(0,0,0,0.6);
-        border: 1px solid rgba(255,255,255,0.4);
-    }
-
-    &:active{
-        box-shadow: -6px -6px 10px rgba(0,0,0,0.3), 10px 10px 10px rgba(0,0,0,0.3);
-    }
-
     /* display: flex; */
+`;
+
+export const FolderStyleThin = styled.div`
+    
+    ${FolderStyle}
+
+    min-width: 8rem;
+    
+    margin: 5px;
+    padding: 10px;
+
+    color: white;
+    fill: white;
+
+    .logos{
+        margin: 3px 0; 
+        display: flex;
+        justify-content: space-around;
+        /* width: 30%; */
+        .folderNormal{
+            /* width: 30%; */
+            fill: white;
+        }
+        .plataformImage{
+            
+            width: 30%;
+            img{
+                width: 20px;
+            }
+            /* display: none; */
+        }
+        .info{
+            width: 40px;
+            display: flex;
+            .numberPresentations{
+                display:flex;
+                width: 70%;
+            }
+            .mine{
+                width: 30%;
+                
+            }
+        }
+    }
+    .name{
+        /* width: 100%; */
+    }
+    
 `;

@@ -8,11 +8,12 @@ export const Home = styled.div`
     /* grid-column-end: 2; */
 
     width: 100%;
-    ;
+
+    
     /* height: fit-content; */
     /* height: 90vh; */
-    background-color: rgba(228, 238, 248, 0.6);
-    box-shadow: 10px 10px 10px rgba(0,0,0,0.2), -1px -1px 10px rgba(0,0,0,0.2) ;
+    background-color: rgba(255, 255, 255, 0.2);
+    /* box-shadow: 10px 10px 10px rgba(0,0,0,0.2), -1px -1px 10px rgba(0,0,0,0.2) ; */
     border-right: 2px solid rgba(0,0,0,0.2);
     border-bottom: 2px solid rgba(0,0,0,0.2);
     border-radius: 25px;
@@ -81,17 +82,6 @@ export const Home = styled.div`
         }
 
         .folders{
-            /* grid-row: 4 / span 4; */
-            display: flex;
-            /* min-height: 200px; */
-            /* flex-wrap: wrap;  */
-            /*Only if cuadricula layout */
-            /* justify-content: center;  */
-            /*Only if cuadricula layout */
-            overflow-x: scroll;
-            max-height: 420px;
-            /* border: 1px solid black; */
-            border-radius: 15px;
 
             .noFolders{
                 width: 100%;
@@ -105,6 +95,31 @@ export const Home = styled.div`
 
             /* background: linear-gradient(158deg, rgba(2,0,36,1) 0%, rgba(88,37,105,1) 46%, rgba(217,144,213,1) 100%); */
             
+        }
+
+        .layoutType0{
+            
+            /* grid-row: 4 / span 4; */
+            display: flex;
+            /* min-height: 200px; */
+            /* flex-wrap: wrap;  */
+            /*Only if cuadricula layout */
+            /* justify-content: center;  */
+            /*Only if cuadricula layout */
+            overflow-x: scroll;
+            max-height: 420px;
+            /* border: 1px solid black; */
+            border-radius: 15px;
+        }
+
+        .layoutType1{
+            
+            /* width: 100%; */
+            /* overflow-x: scroll; */
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 15px;
+            width: 100%;
         }
 
         .files{

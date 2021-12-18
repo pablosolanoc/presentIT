@@ -1,53 +1,72 @@
 import logo from './logo.svg';
 import './App.css';
 
-import {Route} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
 import HomePage from './pages/HomePage/HomePage.page';
-import LandingPage from './pages/LandingPage.page';
+import LandingPage from './pages/LandingPage/LandingPage.page';
 import api from './services/api';
 import { connect } from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
-
 
 function App({setCurrentUser, currentUser}) {
 
   const handleUser = (response) => {
     console.log(response);
     if(response.status === 200){
+      //There is no need to add access token or refresh token to the
+      // use reducer because those  are in the cookies, just user info in the reducer
       setCurrentUser(response.data);
     }else{
       console.log('No hay nada');
+      //if there is no user as the response was anything other than 200
+      setCurrentUser(null);
     }
   }
 
   useEffect(() => {
-    console.log('hey');
+    console.log('hey App');
     async function fetchUserData(){
-      console.log(`${process.env.REACT_APP_BACK_END_ROUTE}/login/info`);
-      const response = await api.get(`/login/info`);
-      handleUser(response);
+      try{
+        console.log(`${process.env.REACT_APP_BACK_END_ROUTE}/login/info`);
+        const response = await api.get(`/login/info`);
+        handleUser(response);
+      }catch(error){
+        //Just in case, this call should not return an error code, but for any un anticipated
+        // change or problem this try-catch would handle it
+        setCurrentUser(null);
+      }
+      
     }
     fetchUserData();
+    // setCurrentUser(null);
   }, [])
 
   if(currentUser){
     console.log('here');
+    console.log({currentUser});
     return (
       <div className="App">
-        <Route  path="/">
-            <HomePage/>
-        </Route>
+        <Switch>
+          <Route  exact path="/">
+              <HomePage/>
+          </Route>
+          <Redirect to="/" />
+        </Switch>
       </div>
     );
   }else{
     console.log('here2');
+    console.log({currentUser});
     return(
       <div className="App">
-        <Route  path="/">
-            {/* <LandingPage/> */}
-            <HomePage/>
-        </Route>
+        <Switch>
+          <Route exact path="/">
+              <LandingPage/>
+              {/* <HomePage/> */}
+          </Route>
+          <Redirect to="/" />
+        </Switch>
       </div>
     )
   }

@@ -13,15 +13,22 @@ import SideBar from '../../components/sideBar/sideBar.component';
 
 import {connect} from 'react-redux';
 
-import MyComponent from '../../components/myComponent/myComponent.component.js';
+import MyComponent from '../../components/presentationPreview/presentationPreview.component.js';
 // import SignIn from '../../components/sign-In/sign-In.component';
 
-const HomePage = ({currentFolderId}) => {
+const HomePage = ({currentFolderId, folderLayoutConfig}) => {
 
     const [myFolders, setMyFolders] = useState({});
     const [myFiles, setMyFiles] = useState({});
     const [sharedFolders, setSharedFolders] = useState({});
     const [sharedFiles, setSharedFiles] = useState({});
+
+    const [showPreview, setShowPreview] = useState(false);
+
+    const [fileId, setFileId] = useState('');
+    const [isPDF, setIsPDF] = useState(false);
+
+    const [disabled, setDisabled] = useState(false);
 
     // const [displayFolders, setisplay] = useState({});
 
@@ -35,7 +42,18 @@ const HomePage = ({currentFolderId}) => {
         setMyFiles(files.ownFiles);
         setSharedFolders(folders.sharedFolders);
         setSharedFiles(files.sharedFiles);
+    }
 
+    const setPreview = (newFileId, newIsPDF) => {
+        console.log({newFileId, fileId})
+        setShowPreview(!showPreview);
+        if(newFileId !== fileId){
+            console.log('heyyy hereeee\n\n\n')
+            setFileId(newFileId);
+            setIsPDF(newIsPDF);
+        }else{
+            console.log('heyyy hereeee 222222\n\n\n')
+        }
     }
 
     useEffect(() => {
@@ -50,6 +68,7 @@ const HomePage = ({currentFolderId}) => {
                 }
             }
             await getRequestAuthorized('/drive/structure', setAll, config);
+            setDisabled(false);
         }
         fetchData();
         // console.log(structure);
@@ -68,8 +87,8 @@ const HomePage = ({currentFolderId}) => {
             }
         
         
-        
         if(Object.keys(displayFolders).length > 0){
+            
             return Object.keys(displayFolders).map((key, index) => 
                         <Folder key={index} id={key} name={displayFolders[key].name}
                                 numberPresentations={displayFolders[key].filesInside}
@@ -77,6 +96,8 @@ const HomePage = ({currentFolderId}) => {
                                 shared={displayFolders[key].shared}
                                 currentFolderId={currentFolderId}
                                 setDisplayConfig={setDisplayConfig}
+                                disabled={disabled}
+                                setDisabled={setDisabled}
                         />
                     )
         }else{
@@ -95,7 +116,7 @@ const HomePage = ({currentFolderId}) => {
             displayFiles = {...myFiles, ...sharedFiles};
         }
         return Object.keys(displayFiles).map((key) => 
-            displayFiles[key]
+            ({...displayFiles[key], id: key})
         )
     }
 
@@ -106,13 +127,12 @@ const HomePage = ({currentFolderId}) => {
     return(
         <Margins>
             <Home>
-                
-                <SignIn></SignIn>
+                {/* <SignIn></SignIn> */}
                 <div className='sideBar'>
                     <SideBar setDisplayConfig={setDisplayConfig} displayConfig={displayConfig} currentFolderId={currentFolderId}></SideBar>
                 </div>
                 <div className='content'>
-                    <MyComponent></MyComponent>
+                    
                     <div className='bar'>
                         <TypeLayout></TypeLayout>
                         <User></User>
@@ -122,7 +142,7 @@ const HomePage = ({currentFolderId}) => {
                         <Path></Path>
                         
                     </div>
-                    <div className='folders'>
+                    <div className={`folders ${folderLayoutConfig == 0 ? 'layoutType0' : 'layoutType1'}`}>
                         {
                             showCorrectFolders(displayConfig)
                         }
@@ -130,17 +150,21 @@ const HomePage = ({currentFolderId}) => {
                     
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={showCorrectFiles(displayConfig)}></Files>
+                        <Files files={showCorrectFiles(displayConfig)} setPreview={setPreview}></Files>
                     </div>              
                 </div>
             </Home>
+            <MyComponent setShowPreview={setShowPreview} showPreview={showPreview} fileId={fileId} isPDF={isPDF}></MyComponent>
         </Margins>
     )
 
 }
 
 const mapStateToProps = (state) => ({
-    currentFolderId: state.structure.currentFolderId
+    currentFolderId: state.structure.currentFolderId,
+    folderLayoutConfig: state.layoutConfigs.folderLayoutConfig
 })
+
+
 
 export default connect(mapStateToProps, null)(HomePage);

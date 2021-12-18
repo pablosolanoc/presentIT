@@ -26,12 +26,35 @@ export const UserStyle = styled.div`
 
     .subMenu{
         position: absolute;
-        width: 15rem;
-        height: 26rem;
-        background-color: salmon;
+        width: 9rem;
+        /* height: 26rem; */
+        background-color: rgba(236, 212, 242, 0.8);
         z-index: 1;
-        border-radius: 20px;
+        border-radius: 12px;
 
-        right: -10px;
+        right: 5px;
+
+        font-size: 1.2rem;
+
+        .entry{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 2rem;
+            
+            border: 1px solid rgba(255, 212, 242, 1);
+            border-radius: 12px;
+            cursor: pointer;
+
+            &:hover{
+                background-color: rgba(236, 212, 242);
+            }
+
+            &:active{
+                border: 2px solid rgba(235, 57, 65, 0.3);
+            }
+
+            transition: all 0.1s ease-in-out;
+        }
     }
 `;

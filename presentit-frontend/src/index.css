@@ -9,9 +9,15 @@ body {
   background: rgb(211,244,255);
   background: linear-gradient(158deg, rgba(211,244,255,0.9472163865546218) 0%, rgba(235,208,241,0.9360119047619048) 100%) no-repeat center center fixed;;
   
+  
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.noScroll{
+  position: fixed;
 }
