@@ -3,8 +3,9 @@ import { SideBarStyle } from "./sideBar.styles";
 
 import { connect } from "react-redux";
 import { setPathFrom } from "../../redux/structure/structure.actions";
+import { setOverallLayout } from "../../redux/layoutConfigs/layoutConfigs.actions";
 
-const SideBar = ({setDisplayConfig, displayConfig, currentFolderId, setPathFrom}) => {
+const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayout, currentFolderId, setPathFrom}) => {
 
 
     const changeTypeFolder = (type) => {
@@ -27,14 +28,19 @@ const SideBar = ({setDisplayConfig, displayConfig, currentFolderId, setPathFrom}
             <div className={`config ${displayConfig === 0 ? 'selected' : ''}`} onClick={() => changeTypeFolder(0)}>Mine</div>
             <div className={`config ${displayConfig === 1 ? 'selected' : ''}`} onClick={() => changeTypeFolder(1)}>Shared with me</div>
             <div></div>
-            <div className={`config`}>Just Files</div>
+            <div className={`config ${overallLayout === 0 ? 'selected' : ''}`} onClick={() => setOverallLayout(overallLayout === 0 ? 1 : 0)}>Just Files</div>
         </SideBarStyle>
     );
 
 }
 
-const mapDisptachToProps = (dispatch) => ({
-    setPathFrom: (pathIndex) => dispatch(setPathFrom(pathIndex))
+const mapStateToProps = (state) => ({
+    overallLayout:  state.layoutConfigs.overallLayout
 })
 
-export default connect(null, mapDisptachToProps)(SideBar);
+const mapDisptachToProps = (dispatch) => ({
+    setPathFrom: (pathIndex) => dispatch(setPathFrom(pathIndex)),
+    setOverallLayout: (overallLayoutType) => dispatch(setOverallLayout(overallLayoutType))
+})
+
+export default connect(mapStateToProps, mapDisptachToProps)(SideBar);

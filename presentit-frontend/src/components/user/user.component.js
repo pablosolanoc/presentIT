@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import {setCurrentUser} from '../../redux/user/user.actions';
 
-const User = ({setCurrentUser}) => {
+const User = ({setCurrentUser, currentUser}) => {
 
     const [showSubMenu, setShowSubMenu] = useState(false);
 
@@ -22,7 +22,7 @@ const User = ({setCurrentUser}) => {
 
     return(
         <UserStyle>
-            <img src='/images/profile.jpg' onClick={toggleSubMenu}></img>
+            <img src={currentUser.picture} onClick={toggleSubMenu}></img>
             { showSubMenu && <div className='subMenu' >
                     <div className='entry' onClick={signOut}>
                         Sign Out

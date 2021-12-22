@@ -20,7 +20,7 @@ const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
 
   return(
     <PreviewStyle className={`${showPreview ? '' : 'hidden' }`} onClick={() => setShowPreview(!showPreview)} >
-      <PresentationCanvas fileId={fileId} isPDF={isPDF} />
+      {showPreview ? <PresentationCanvas fileId={fileId} isPDF={isPDF} /> : []}
     </PreviewStyle>  
   )
 

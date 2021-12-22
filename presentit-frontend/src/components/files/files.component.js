@@ -6,7 +6,7 @@ import {TableStyle} from  './files.styles';
 //Major Credit to DCode, you can find the sorting algorithm at this link
 // https://codepen.io/dcode-software/pen/zYGOrzK
 
-const Files = ({files, setPreview}) => {
+const Files = ({files, setPreview, searchBy}) => {
 
     console.log(files)
 

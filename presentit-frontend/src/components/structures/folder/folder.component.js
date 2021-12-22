@@ -29,7 +29,7 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
         console.log('\n\n')
         
         // folder.current.setAttribute('disabled', true);
-        setDisabled(true);
+        // setDisabled(true);
 
         if(currentFolderId === 'root'){
             // setDisplayConfig(2);

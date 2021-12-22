@@ -69,7 +69,7 @@ export const TableStyle = styled.div`
     #body{
         
         overflow-y: auto;
-        max-height: 30vh;   
+        max-height: 90vh;   
 
         .name{
             color: #000;

@@ -4,14 +4,25 @@ import {ReactComponent as Lupa} from '../../images/lupa.svg';
 
 const SearchBar = () => {
 
+    const search = (event) => {
+        // console.log({event1, event2})
+        const searchTerm = event.target.value;
+
+
+
+    }
 
     return(
         <SearchBarStyle>
-            <input className='search' placeholder="Search by folder name">
+            <input className='search' placeholder="Search by folder name" onChange={search}>
             </input>
             <Lupa className='lupa'></Lupa>
         </SearchBarStyle>
     )
 }
+
+const mapStateToProps = (state) => ({
+    
+})
 
 export default SearchBar;

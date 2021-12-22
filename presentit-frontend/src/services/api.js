@@ -18,6 +18,7 @@ const getRequestAuthorized = async (url, manageOkResponse, config) => {
         const response = await api.get(url, config);
         manageOkResponse(response);
     }catch(error){
+        debug(error);
         if(error.response.status === 401){
             handleUnauthorized(error);
         }else{

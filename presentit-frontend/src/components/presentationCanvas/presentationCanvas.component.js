@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import {CanvasStyle} from './presentationCanvas.styles';
 import {setCurrentUser} from '../../redux/user/user.actions';
+import {io} from 'socket.io-client';
+
 
 const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
 
@@ -10,6 +12,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
     let [pageNum, setPageNum] = useState(1);
     let [pdfDoc, setPdfDoc] = useState(null);
 
+    let [socket, setSocket] = useState(null);
      // let pdfDoc = null;
     let [ctx, setCTX] = useState(null);
     let canvas = useRef(null);
@@ -23,7 +26,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         // console.log('lashjafgjklgdslfkgjldsljkadgjasdfkjldgj\n\n\n');
         // Get page
         // console.log(pdfDoc)
-        
+        console.log(num)
         pdfDoc.getPage(num).then(page => {  
           // Set scale
           const viewport = page.getViewport({ scale : 1.5 });
@@ -99,6 +102,23 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
 
     useEffect(() => {
         setCTX(canvas.current.getContext('2d'))
+        
+        //Socket Functions
+        const newSocket = io("http://localhost:8000", {
+          withCredentials: true,
+          query: {
+            room: fileId
+          }
+        });
+        newSocket.on("connect", (socket) => {
+          console.log('Conectado');
+        });
+        newSocket.on("updatePage", (page) => {
+          console.log('\n\nMe ha llegado una actualizacion de pagina\n\n');
+          setPageNum(page);
+        });
+
+        setSocket(newSocket);
         // console.log(pdfjsLib);
     }, []);
 
@@ -111,6 +131,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         // console.log('buuu\n\n');
         // console.log(remotePdfDoc);
         setPdfDoc(remotePdfDoc);
+        console.log(remotePdfDoc)
         // pdfDoc = remotePdfDoc;
         // console.log(pdfDoc)
       }).catch((err) => {
@@ -121,15 +142,21 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         }
       })
     }, [fileId])
+
+    useEffect(() => {
+      if(pdfDoc){
+        queueRenderPage(pageNum);
+      }
+    }, [pageNum])
   
 
     useEffect(() => {
-        // console.log('hey haas '  + pageNum)
-        // console.log(pdfDoc)
-        if(pdfDoc){
-          renderPage(pageNum);
-        }
-      }, [ctx, pdfDoc])
+      // console.log('hey haas '  + pageNum)
+      // console.log(pdfDoc)
+      if(pdfDoc){
+        renderPage(pageNum);
+      }
+    }, [ctx, pdfDoc])
     
     const queueRenderPage = num => {
       if (pageIsRendering) {
@@ -141,26 +168,41 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
       
       // Show Prev Page
     const showPrevPage = () => {
+      console.log(pageNum)
       if (pageNum <= 1) {
         return;
       }
       setPageNum(pageNum - 1);
-      queueRenderPage(pageNum);
+      //The emit to send the change of page NEEDS to be here otherwise causes 
+      // bad behaviour if it is on the useEffect of pageNum
+      socket.emit('updatePage', pageNum - 1, fileId);
     };
     
     // Show Next Page
-    const showNextPage = (pdfDoc) => {
+    const showNextPage = () => {
       // console.log('\n\nheyyyy');
       // console.log(pdfDoc);
+      console.log(pageNum)
       if (pageNum >= pdfDoc.numPages) {
         return;
       }
       setPageNum(pageNum + 1);
-      queueRenderPage(pageNum);
+      //The emit to send the change of page NEEDS to be here otherwise causes 
+      // bad behaviour if it is on the useEffect of pageNum
+      socket.emit('updatePage', pageNum + 1, fileId);
     };
 
+    const keyPressed = (event) => {
+      console.log("hey");
+      if(event.code === "ArrowRight"){
+        showNextPage();
+      }else if(event.code === "ArrowLeft"){
+        showPrevPage();
+      }
+    }
+
     return(
-        <CanvasStyle ref={canvas} onClick={fullScreen}>
+        <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed}>
         </CanvasStyle>
     )
 }
