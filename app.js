@@ -11,6 +11,8 @@ var cors = require('cors');
 
 var session = require("express-session");
 
+
+
 // var logger2 = require('./logger').child({ from: 'ExampleOfUsingWinston' }); // You should reference the logger folder at the root of the repository depending on the level
 //SHould add "debug"
 //SHould add "method-override"
@@ -48,7 +50,7 @@ if(`${process.env.NODE_ENV}` === 'production'){
     cookie: {
       httpOnly: true,
       // maxAge: 15 * 1000 ,
-      maxAge: 60 * 1000 * 60 * 4 ,
+      maxAge: 60 * 1000 * 60 * 4,
     },
     // store: sessionStore //Enable this on production
   };

@@ -68,7 +68,6 @@ const filesCallRoot = async (drive, folderid) => {
             folderInfo['name'] = `${folder.name}`;
             folderInfo['extension'] = `${folder.fileExtension}`;
             folderInfo['viewedByMeTime'] = `${folder.viewedByMeTime}`;
-            
             if(!folder.shared){
                 folderInfo['shared'] = false;
             }else{
@@ -169,9 +168,47 @@ const filesCall = async (drive, folderid, displayConfig = '0') => {
     }
 }
 
+const allFilesCall = async (drive, displayConfig) => {
+    try{
+        const ownFiles = {};
+        const sharedFiles = {};
+        const response = await drive.files.list({
+            q: `mimeType='application/vnd.google-apps.presentation' or mimeType='application/pdf'`,
+            fields: 'nextPageToken, files(id, name, shared, fileExtension, viewedByMeTime, sharedWithMeTime)',
+        });
+        response.data.files.forEach(function (file) {
+            const fileInfo = {};
+
+            fileInfo['name'] = `${file.name}`;
+            fileInfo['extension'] = `${file.fileExtension}`;
+            fileInfo['viewedByMeTime'] = `${file.viewedByMeTime}`;
+            
+            if(!file.shared){
+                fileInfo['shared'] = false;
+            }else{
+                fileInfo['shared'] = true;
+            }
+            if(!file.sharedWithMeTime){
+                fileInfo['mine'] = true;
+                ownFiles[`${file.id}`] = fileInfo;
+            }else if(displayConfig === '1'){
+                fileInfo['mine'] = false;
+                sharedFiles[`${file.id}`] = fileInfo;
+            }
+
+        });
+        const sendResponse = {ownFiles, sharedFiles, filesInside: response.data.files.length};
+        return sendResponse;
+    }catch(error){
+        debug(error);
+        return false;
+    }
+}
+
 module.exports = {
     foldersCallRoot,
     filesCallRoot,
     foldersCall,
-    filesCall
+    filesCall,
+    allFilesCall
 }

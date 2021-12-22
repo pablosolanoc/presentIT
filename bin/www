@@ -5,11 +5,16 @@
  */
 
 require("dotenv").config();
+
 var app = require('../app');
+
 var connect = require('../socketIO/actions');
+
 var debug = require('debug')('PRESENTIT:www');
+
 var http = require('http');
-const { Server } = require("socket.io");
+
+const {Server} = require("socket.io");
 /**
  * Get port from environment and store in Express.
  */
@@ -24,7 +29,17 @@ app.set('port', port);
 var server = http.createServer(app);
 
 //Setting up Socket.IO
-const socketIO = connect(new Server(server));
+//We send the server and the options for SokcetIO like the sites allowed by cors 
+// Find more at https://socket.io/docs/v4/server-options/#cors
+
+//Connect is my function that you can find at socketIO/actions.js
+// this allows to set all tha actions that the server will receive
+const socketIO = connect(new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    credentials: true
+  }
+}));
 //Uncomment this line so you can get the socketIO en API request by req.app.get('socketio')
 // app.set('socketio', socketIO);
 

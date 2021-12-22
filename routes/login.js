@@ -100,7 +100,7 @@ router.get('/redirect', function(req, res){
     }
     
 });
-
+  
 
 router.get('/info', function(req, res){
     // debug('Session: \n\n');

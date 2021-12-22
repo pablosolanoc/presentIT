@@ -55,7 +55,7 @@ const getFolderFilesContent = async (req, res, times) => {
             return res.status(400).send('There was no folder "named" like that')
         }
     }else{
-        return res.status(400).send('There was no folder "named" like that')
+        return res.status(400).send('There was no folder "named" like that');
     }
     
 }
