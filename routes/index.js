@@ -15,9 +15,13 @@ var async = require('async');
 //   res.sendFile(path.join(__dirname, '../views/new.html'));
 // });
 
+/* This is what get the ReactApp*/
+router.get('/app', function(req, res) {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 /* This is what get the ReactApp*/
-router.get('app/*', function(req, res) {
+router.get('/app/*', function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 

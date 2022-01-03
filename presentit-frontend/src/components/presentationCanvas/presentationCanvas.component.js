@@ -108,7 +108,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
         
         canvas.current.focus();
         //Socket Functions
-        const newSocket = io("http://localhost:8000", {
+        const newSocket = io(`${process.env.REACT_APP_BACK_END_ROUTE}`, {
           withCredentials: true,
           query: {
             room: fileId
