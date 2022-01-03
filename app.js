@@ -100,7 +100,8 @@ app.use(methodOverride("_method"));
 
 
 app.use(session(sessionConfig));
-app.use('/action', indexRouter);
+app.use('/', indexRouter);
+// app.use('/action', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/drive', driveRouter);
