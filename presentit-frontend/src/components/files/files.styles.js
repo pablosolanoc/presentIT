@@ -35,6 +35,8 @@ export const TableStyle = styled.div`
 
 
     .row{
+        cursor: pointer;
+
         display: grid;
         grid-template-columns: 4fr 1fr 1fr;
         height: 4rem;
@@ -51,7 +53,7 @@ export const TableStyle = styled.div`
            display: none;
         }
 
-        transition: all 0.2s ease-in-out;
+        transition: all 0.05s ease-in-out;
 
         &:hover{
             background: rgba(243, 239, 249, 1);
@@ -62,15 +64,18 @@ export const TableStyle = styled.div`
 
     #header{
         margin-bottom: 2rem;
-        color: #a4abc8;
+        color: rgba(32, 60, 61, 1);
         font-weight: 900;
+        background-color: rgba(0, 189, 177, 0.3);
+        border-radius: 20px;
     }
 
     #body{
         
         overflow-y: auto;
-        max-height: 90vh;   
-
+        max-height: 70vh;   
+        background-color: rgba(0, 189, 177, 0.1);
+        border-radius: 15px;
         .name{
             color: #000;
             font-weight: 900;
@@ -94,7 +99,7 @@ export const TableStyle = styled.div`
             }
         }
         .owner,.lastOpen{
-            color: #a4abc8;
+            color: rgba(32, 60, 61, 1);
             font-weight: 400;
         }
     }

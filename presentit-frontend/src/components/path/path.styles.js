@@ -6,7 +6,7 @@ export const PathStyle = styled.div`
 
     
     margin-top: 10px;
-    color: red;
+    /* color: red; */
     
     display: flex;
     flex-wrap: wrap;
@@ -22,7 +22,7 @@ export const PathStyle = styled.div`
     
     
     .location{
-        color: #a4abc8;
+        color: rgba(32, 60, 61, 1);
         font-weight: 900;
         
         max-width: 20rem;

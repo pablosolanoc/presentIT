@@ -30,9 +30,23 @@ export const PreviewStyle = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+`;
 
-    
-    
+export const ActiveUsersStyle = styled.div`
+    width: 90vw;
+    /* background: yellow; */
 
+    display: flex;
+    justify-content: end;
+
+    .activeUser{
+        
+        img{
+            height: 2rem;
+            border-radius: 50%;
+            padding: 0.1rem;
+            border: 4px solid #6a2afe;
+        }
+    }
 `;
 

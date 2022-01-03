@@ -38,8 +38,9 @@ const HomePage = ({currentFolderId, overallLayout}) => {
 
 
     const setAll = (response) => {
+        console.log(response.data)
         const {folders, files} = response.data;
-        console.log(response);
+        
 
         if( overallLayout === 1 ){
             setMyFolders(folders.ownFolders);
@@ -48,12 +49,13 @@ const HomePage = ({currentFolderId, overallLayout}) => {
 
         setMyFiles(files.ownFiles);
         setSharedFiles(files.sharedFiles);
+        
     }
 
     
 
     useEffect(() => {
-        console.log(currentFolderId);
+        
         async function fetchData(){
             let config = {
                 params: {
@@ -67,6 +69,7 @@ const HomePage = ({currentFolderId, overallLayout}) => {
             setDisabled(true);
             await getRequestAuthorized('/drive/structure', setAll, config);
             setDisabled(false);
+            
         }
         fetchData();
         // console.log(structure);

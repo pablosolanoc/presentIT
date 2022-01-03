@@ -12,8 +12,8 @@ export const Home = styled.div`
     
     /* height: fit-content; */
     /* height: 90vh; */
-    background-color: rgba(255, 255, 255, 0.2);
-    /* box-shadow: 10px 10px 10px rgba(0,0,0,0.2), -1px -1px 10px rgba(0,0,0,0.2) ; */
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 4vh 7vh 14vh -6vh rgba(0, 0, 0, 0.35), -4vh 7vh 14vh -6vh rgba(0, 0, 0, 0.35);
     border-right: 2px solid rgba(0,0,0,0.2);
     border-bottom: 2px solid rgba(0,0,0,0.2);
     border-radius: 25px;

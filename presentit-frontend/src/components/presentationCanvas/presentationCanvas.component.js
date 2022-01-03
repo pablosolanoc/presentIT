@@ -6,7 +6,9 @@ import {setCurrentUser} from '../../redux/user/user.actions';
 import {io} from 'socket.io-client';
 
 
-const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
+const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser}) => {
+
+    // let canvas = useRef(null);
 
     let [pageIsRendering, setPageIsRendering] = useState(false);
     let [pageNum, setPageNum] = useState(1);
@@ -20,13 +22,12 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
     // let goFull = useRef(null);
     const pdfjsLib = window.pdfjsLib;
 
-
     const renderPage = num => {
         setPageIsRendering(true);
         // console.log('lashjafgjklgdslfkgjldsljkadgjasdfkjldgj\n\n\n');
         // Get page
         // console.log(pdfDoc)
-        console.log(num)
+        
         pdfDoc.getPage(num).then(page => {  
           // Set scale
           const viewport = page.getViewport({ scale : 1.5 });
@@ -55,7 +56,9 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         .catch(error => {
           console.error(error)
         });
-      }
+    }
+
+    
 
     const fullScreen = (element) => {
 
@@ -99,10 +102,11 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
           }
     }
 
-
     useEffect(() => {
         setCTX(canvas.current.getContext('2d'))
+        console.log("Rendering Canvas");
         
+        canvas.current.focus();
         //Socket Functions
         const newSocket = io("http://localhost:8000", {
           withCredentials: true,
@@ -113,8 +117,11 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         newSocket.on("connect", (socket) => {
           console.log('Conectado');
         });
-        newSocket.on("updatePage", (page) => {
+        newSocket.on("updatePage", (page, user) => {
           console.log('\n\nMe ha llegado una actualizacion de pagina\n\n');
+          
+          setLastActiveUser(user);
+
           setPageNum(page);
         });
 
@@ -135,7 +142,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         // pdfDoc = remotePdfDoc;
         // console.log(pdfDoc)
       }).catch((err) => {
-        console.log(err);
+        
         //Request made while Unauthorized
         if(err.status === 401){
           setCurrentUser(null);
@@ -157,6 +164,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
         renderPage(pageNum);
       }
     }, [ctx, pdfDoc])
+
     
     const queueRenderPage = num => {
       if (pageIsRendering) {
@@ -168,32 +176,32 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
       
       // Show Prev Page
     const showPrevPage = () => {
-      console.log(pageNum)
+      
       if (pageNum <= 1) {
         return;
       }
       setPageNum(pageNum - 1);
       //The emit to send the change of page NEEDS to be here otherwise causes 
       // bad behaviour if it is on the useEffect of pageNum
-      socket.emit('updatePage', pageNum - 1, fileId);
+      socket.emit('updatePage', pageNum - 1, fileId, currentUser);
     };
     
     // Show Next Page
     const showNextPage = () => {
       // console.log('\n\nheyyyy');
       // console.log(pdfDoc);
-      console.log(pageNum)
+      
       if (pageNum >= pdfDoc.numPages) {
         return;
       }
       setPageNum(pageNum + 1);
       //The emit to send the change of page NEEDS to be here otherwise causes 
       // bad behaviour if it is on the useEffect of pageNum
-      socket.emit('updatePage', pageNum + 1, fileId);
+      socket.emit('updatePage', pageNum + 1, fileId, currentUser);
     };
 
     const keyPressed = (event) => {
-      console.log("hey");
+      
       if(event.code === "ArrowRight"){
         showNextPage();
       }else if(event.code === "ArrowLeft"){
@@ -207,10 +215,14 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser}) => {
     )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => {dispatch(setCurrentUser(user))} 
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser
 })
 
-export default connect(null, mapDispatchToProps)(PresentationCanvas);
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => {dispatch(setCurrentUser(user))}
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PresentationCanvas);
 
 

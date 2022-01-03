@@ -8,7 +8,7 @@ import {TableStyle} from  './files.styles';
 
 const Files = ({files, setPreview, searchBy}) => {
 
-    console.log(files)
+    
 
     let table = useRef();
     let headerRow = useRef();
@@ -16,15 +16,14 @@ const Files = ({files, setPreview, searchBy}) => {
     const sortTableByColumn = (column, asc) => {
         const dirModifier = asc ? 1 : -1;
         const tBody = table.childNodes[1];
-        console.log(tBody);
+        
         const rows = Array.from(tBody.childNodes);
-        console.log(rows);
+        
         // Sort each row
         const sortedRows = rows.sort((a, b) => {
             const aColText = a.childNodes[column].textContent.trim();
             const bColText = b.childNodes[column].textContent.trim();
-            console.log(aColText);
-            console.log(bColText);
+            
             
             return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
         });
@@ -45,8 +44,7 @@ const Files = ({files, setPreview, searchBy}) => {
 
     const getIfAsc = (element, column) => {
         const headerCell = element.target;
-        console.log(headerCell.classList);
-        console.log(headerCell.classList.contains("th-sort-asc"));
+        
         return !headerCell.classList.contains("th-sort-asc");
     }
 
@@ -75,10 +73,6 @@ const Files = ({files, setPreview, searchBy}) => {
             return (<div className='noFiles'>No Files found</div>)
         }
     }
-
-    useEffect(() => {
-        console.log(table); 
-    })
 
     
 

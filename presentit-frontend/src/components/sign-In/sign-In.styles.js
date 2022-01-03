@@ -37,7 +37,7 @@ const SignInStyle = styled.div`
         &:active{
             box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
             color: rgba(30, 168, 247, 1);
-            height: 3rem;
+            height: 2rem;
         }
 
         img{

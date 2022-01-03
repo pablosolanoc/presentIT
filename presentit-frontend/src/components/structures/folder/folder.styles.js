@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components';
 
 const FolderStyle = css`
     display: flex;
-    background-color: ${p => p.mine ? `rgba(106, 42, 254, 1)` : `rgba(30, 168, 247, 1)`};
+    background-color: ${p => p.mine ? `rgba(106, 42, 254, 1)` : `rgba(58, 219, 180, 1)`};
     flex-direction: column;
     border-radius: 15px;
     box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
@@ -14,7 +14,8 @@ const FolderStyle = css`
 
     &:hover{
         box-shadow: 10px 10px 10px rgba(0,0,0,0.6);
-        border: 1px solid rgba(255,255,255,0.4);
+        border-right: 1px solid rgba(255,255,255,0.4);
+        /* width: 3.5rem; */
     }
 
     &:active{
@@ -47,7 +48,7 @@ export const FolderStyleBig = styled.div`
             width: 40%;
             height: auto;
             /* margin: 10px 20px; */
-            fill: rgba(255,255,255, 0.6);
+            fill: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
         }
         .plataformImage{
             width: 4.5rem;
@@ -70,7 +71,7 @@ export const FolderStyleBig = styled.div`
         margin: 10px 0 10px 10px;
         align-self: start;
         text-align: start;
-        color: white;
+        color: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
         font-size: 1.1rem;
     }
 
@@ -101,13 +102,13 @@ export const FolderStyleThin = styled.div`
     
     ${FolderStyle}
 
-    min-width: 8rem;
+    min-width: 7rem;
     
     margin: 5px;
     padding: 10px;
 
     color: white;
-    fill: white;
+    fill: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
 
     .logos{
         margin: 3px 0; 
@@ -116,7 +117,7 @@ export const FolderStyleThin = styled.div`
         /* width: 30%; */
         .folderNormal{
             /* width: 30%; */
-            fill: white;
+            fill: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
         }
         .plataformImage{
             
@@ -129,6 +130,7 @@ export const FolderStyleThin = styled.div`
         .info{
             width: 40px;
             display: flex;
+            color: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
             .numberPresentations{
                 display:flex;
                 width: 70%;
@@ -140,7 +142,7 @@ export const FolderStyleThin = styled.div`
         }
     }
     .name{
-        /* width: 100%; */
+        color: ${p => p.mine ? `white` : `rgba(32, 60, 61, 1)`};
     }
     
 `;

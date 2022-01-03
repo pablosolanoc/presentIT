@@ -13,7 +13,7 @@ export const UserStyle = styled.div`
         width: 80%;
         border-radius: 50%;
         padding: 2px;
-        border: 2px solid rgba(106, 42, 254, 1);
+        border: 3px solid #6a2afe;
 
         cursor: pointer;
 
@@ -21,6 +21,7 @@ export const UserStyle = styled.div`
 
         &:active{
             box-shadow: 2px 2px 10px rgba(0,0,0,0.3), -2px -2px 10px rgba(0,0,0,0.3);
+            width: 70%;
         }
     }
 

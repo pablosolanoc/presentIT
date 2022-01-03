@@ -8,7 +8,7 @@ export const SearchBarStyle = styled.div`
     /* height: 40%; */
 
     &:hover{
-        fill: rgb(106, 42, 254);
+        fill: rgba(164, 171, 200, 1);
     }
 
     .search{
@@ -22,7 +22,7 @@ export const SearchBarStyle = styled.div`
         transition: all 0.3s ease;
         /* border: 1px solid pink; */
         &:hover{
-            border: 3px solid rgb(106, 42, 254);
+            border: 3px solid rgba(164, 171, 200, 1);
         }
     }
 

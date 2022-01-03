@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import {ContentStyled} from './content.styles';
 
@@ -32,10 +32,14 @@ const Content = ({
                 }) => {
 
     
-    const [searchBy, setSearchBy] = useState(0); // By default is 0, it means by folder
+    const [searchBy, setSearchBy] = useState(''); // By default is 0, it means by folder
+    const [actuallyShownFolders, setActuallyShownFolders] = useState([]);
+    const [actuallyShownFiles, setActuallyShownFiles] = useState([]);
+    const searchInput = useRef(null);
 
-    const showCorrectFolders = (displayConfig) => {
+    useEffect(() => {
         let displayFolders = {};
+        let displayFoldersForGood = [];
         
         if(displayConfig === 0){
             displayFolders = myFolders
@@ -48,21 +52,78 @@ const Content = ({
         
         if(Object.keys(displayFolders).length > 0){
             
-            return Object.keys(displayFolders).map((key, index) => 
-                        <Folder key={index} id={key} name={displayFolders[key].name}
-                                numberPresentations={displayFolders[key].filesInside}
-                                mine={displayFolders[key].mine}
-                                shared={displayFolders[key].shared}
+            const keys = Object.keys(displayFolders);
+            for(let i=0; i<keys.length; i++){
+                const nameFolder = displayFolders[keys[i]].name.toLowerCase();
+                if(nameFolder.includes(searchBy)){
+                    displayFoldersForGood.push(
+                        <Folder key={i} id={keys[i]} name={displayFolders[keys[i]].name}
+                                numberPresentations={displayFolders[keys[i]].filesInside}
+                                mine={displayFolders[keys[i]].mine}
+                                shared={displayFolders[keys[i]].shared}
                                 currentFolderId={currentFolderId}
                                 setDisplayConfig={setDisplayConfig}
                                 disabled={disabled}
                                 setDisabled={setDisabled}
+                                searchInput={searchInput}
                         />
                     )
+                }
+            }
+
+            displayFoldersForGood.sort(compareFolders);
+
+            setActuallyShownFolders(displayFoldersForGood);
         }else{
-            return (<div className='noFolders'>No Folders</div>)
+            setActuallyShownFolders(<div className='noFolders'>No Folders</div>)
+        }
+    }, [displayConfig, sharedFolders, myFolders, searchBy, disabled])
+
+    useEffect(() => {
+
+        let displayFiles = {};
+        let displayFilesForGood = [];
+        if(displayConfig === 0){
+            displayFiles = myFiles
+        }else if(displayConfig === 1){
+            displayFiles = sharedFiles
+        }else if(displayConfig === 2){
+            displayFiles = {...myFiles, ...sharedFiles};
+        }
+
+        //Busqueda entre los archivos
+        const keys = Object.keys(displayFiles);
+        for(let i=0; i<keys.length; i++){
+            const nameFile = displayFiles[keys[i]].name.toLowerCase();
+            if(nameFile.includes(searchBy)){
+                displayFilesForGood.push({...displayFiles[keys[i]], id: keys[i]})
+            }
         }
         
+        displayFilesForGood.sort(compareFiles);
+
+        setActuallyShownFiles(
+            displayFilesForGood
+        )
+    }, [displayConfig, sharedFiles, myFiles, searchBy])
+
+    const compareFolders = (a, b) => {
+        if ( a.props.name < b.props.name ){
+            return -1;
+        }
+        if ( a.props.name > b.props.name ){
+            return 1;
+        }
+        return 0;
+    }
+    const compareFiles = (a, b) => {
+        if ( a.name < b.name ){
+            return -1;
+        }
+        if ( a.name > b.name ){
+            return 1;
+        }
+        return 0;
     }
 
     const correctLayout = () => {
@@ -74,19 +135,17 @@ const Content = ({
                         <User></User>
                     </div>
                     <div className='functional'>
-                        <SearchBar></SearchBar>
+                        <SearchBar searchBy={searchBy} setSearchBy={setSearchBy} searchInput={searchInput}></SearchBar>
                         <Path></Path>
                         
                     </div>
                     <div className={`folders ${folderLayoutConfig == 0 ? 'layoutType0' : 'layoutType1'}`}>
-                        {
-                            showCorrectFolders(displayConfig)
-                        }
+                        {actuallyShownFolders}
                     </div>      
                     
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={showCorrectFiles(displayConfig)} setPreview={setPreview}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
             )
@@ -94,16 +153,15 @@ const Content = ({
             return (
                 <>
                     <div className='bar'>
-                        <TypeLayout></TypeLayout>
                         <User></User>
                     </div>
                     <div className='functional'>
-                        <SearchBar searchBy={searchBy}></SearchBar>
+                        <SearchBar searchBy={searchBy} setSearchBy={setSearchBy} searchInput={searchInput}></SearchBar>
                         {/* <Path></Path> */}
                     </div>
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files searchBy={searchBy} files={showCorrectFiles(displayConfig)} setPreview={setPreview}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
             )
@@ -112,29 +170,13 @@ const Content = ({
     }
 
     const setPreview = (newFileId, newIsPDF) => {
-        console.log({newFileId, fileId})
+    
         setShowPreview(!showPreview);
         if(newFileId !== fileId){
-            console.log('heyyy hereeee\n\n\n')
+            
             setFileId(newFileId);
             setIsPDF(newIsPDF);
-        }else{
-            console.log('heyyy hereeee 222222\n\n\n')
         }
-    }
-
-    const showCorrectFiles = (displayConfig) => {
-        let displayFiles = {};
-        if(displayConfig === 0){
-            displayFiles = myFiles
-        }else if(displayConfig === 1){
-            displayFiles = sharedFiles
-        }else if(displayConfig === 2){
-            displayFiles = {...myFiles, ...sharedFiles};
-        }
-        return Object.keys(displayFiles).map((key) => 
-            ({...displayFiles[key], id: key})
-        )
     }
 
     return(

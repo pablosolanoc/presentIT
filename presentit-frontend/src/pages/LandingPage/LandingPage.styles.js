@@ -21,7 +21,8 @@ const LandingStyle = styled.div`
     .icon{
         
         grid-row: 2;
-        img{
+        
+        .logo{
             height: 10rem;
         }
     }
@@ -29,6 +30,10 @@ const LandingStyle = styled.div`
         
         grid-row: 3;
         font-size: 7rem;
+
+        #itPart{
+            font-weight: 900;
+        }
 
     }
     .signIn{

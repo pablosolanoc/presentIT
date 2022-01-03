@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { setPathFrom } from "../../redux/structure/structure.actions";
 import { setOverallLayout } from "../../redux/layoutConfigs/layoutConfigs.actions";
 
+import {ReactComponent as Logo} from '../../images/logo.svg';
+
 const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayout, currentFolderId, setPathFrom}) => {
 
 
@@ -22,7 +24,7 @@ const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayo
     return(
         <SideBarStyle>
             <div className='logo' >
-                <img src='/images/master-favicon.png'></img>
+                <Logo className='logoImage'></Logo>
             </div>
             <div className={`config ${displayConfig === 2 ? 'selected' : ''}`} onClick={() => changeTypeFolder(2)}>All</div>
             <div className={`config ${displayConfig === 0 ? 'selected' : ''}`} onClick={() => changeTypeFolder(0)}>Mine</div>

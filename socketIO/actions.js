@@ -12,9 +12,10 @@ function connect(socketIO){
             socketIO.emit('chat message', msg);
         });
 
-        socket.on("updatePage", (page, fileId) => {
+        socket.on("updatePage", (page, fileId, user) => {
             debug('\nUpdating Page\n');
-            socket.to(fileId).emit('updatePage', page);
+            debug(user);
+            socket.to(fileId).emit('updatePage', page, user);
         });
     });
 

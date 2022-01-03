@@ -19,7 +19,7 @@ export const TypeLayoutStyle = styled.div`
         display: flex;
 
         & > *{
-            border: 1px solid rgba(106, 42, 254, 1);
+            /* border: 1px solid rgba(58, 219, 180, 1); */
             width: 3rem;
             height: 2.2rem;
             background-color: white;
@@ -29,16 +29,16 @@ export const TypeLayoutStyle = styled.div`
             transition: all 0.3s ease;
             cursor: pointer;
             &:hover{
-                background-color:  rgba(106, 42, 254, 0.3);
+                background-color:  rgba(58, 219, 180, 0.3);
             }
             &:active{
-                background-color:  rgba(106, 42, 254, 0.6);
+                background-color:  rgba(58, 219, 180, 0.6);
                 box-shadow: 1px 1px 3px rgba(0,0,0, 0.3);
             }
         }
 
         .selected{
-            background-color: rgba(106, 42, 254, 1);
+            background-color: rgba(58, 219, 180, 1);
             box-shadow: 2px 2px 3px rgba(0,0,0, 0.3), -2px -2px 3px rgba(0,0,0, 0.3)
                         , 2px -2px 3px rgba(0,0,0, 0.3), -2px 2px 3px rgba(0,0,0, 0.3);
 

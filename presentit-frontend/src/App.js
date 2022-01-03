@@ -12,23 +12,22 @@ import {setCurrentUser} from './redux/user/user.actions';
 function App({setCurrentUser, currentUser}) {
 
   const handleUser = (response) => {
-    console.log(response);
+    
     if(response.status === 200){
       //There is no need to add access token or refresh token to the
       // use reducer because those  are in the cookies, just user info in the reducer
       setCurrentUser(response.data);
     }else{
-      console.log('No hay nada');
       //if there is no user as the response was anything other than 200
       setCurrentUser(null);
     }
   }
 
   useEffect(() => {
-    console.log('hey App');
+    
     async function fetchUserData(){
       try{
-        console.log(`${process.env.REACT_APP_BACK_END_ROUTE}/login/info`);
+        // console.log(`${process.env.REACT_APP_BACK_END_ROUTE}/login/info`);
         const response = await api.get(`/login/info`);
         handleUser(response);
       }catch(error){
@@ -43,8 +42,7 @@ function App({setCurrentUser, currentUser}) {
   }, [])
 
   if(currentUser){
-    console.log('here');
-    console.log({currentUser});
+    
     return (
       <div className="App">
         <Switch>
@@ -56,8 +54,7 @@ function App({setCurrentUser, currentUser}) {
       </div>
     );
   }else{
-    console.log('here2');
-    console.log({currentUser});
+    
     return(
       <div className="App">
         <Switch>

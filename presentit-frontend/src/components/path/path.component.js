@@ -7,10 +7,7 @@ import { connect } from 'react-redux';
 import {setPathFrom} from '../../redux/structure/structure.actions';
 
 const Path = ({path, setPathFrom}) => {
-    console.log(`heyyyyyyyyyyyyyy ${path}`)
-
-
-
+    
     return(
         <PathStyle>
             {

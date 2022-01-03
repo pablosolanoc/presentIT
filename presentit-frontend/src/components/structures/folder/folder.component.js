@@ -8,7 +8,7 @@ import {ReactComponent as FolderOpenWithThings} from '../../../images/folderOpen
 import { connect } from 'react-redux';
 import { addToPath, setCurrentFolderId } from '../../../redux/structure/structure.actions.js';
 
-const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, disabled, setDisabled}) => {
+const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, disabled, setDisabled, searchInput}) => {
 
     const FolderStyle = folderLayoutConfig === 0 ? FolderStyleBig : FolderStyleThin;
     
@@ -21,15 +21,13 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
 
     const folderClicked = (event) => {
         //make structure reducer change
-        console.log('pff')
-        console.log(id);
-        console.log('\n\n')
-        console.log({event});
-        console.log(folder.current);
-        console.log('\n\n')
+        
+
+        //This line refers to the search value of the search bar, if a folder is cliked it is resetted to ''.
+        searchInput.current.value = '';
         
         // folder.current.setAttribute('disabled', true);
-        // setDisabled(true);
+        setDisabled(true);
 
         if(currentFolderId === 'root'){
             // setDisplayConfig(2);
@@ -46,9 +44,11 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
         
     }
 
-    useEffect(() => {
-        console.log('Change in visualization folder type');
-    }, [folderLayoutConfig])
+    
+
+    // useEffect( () => {
+    //     setDisabled(false);
+    // }, [])
     
     return(
             <FolderStyle disabled={disabled} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={folderClicked}  mine={mine} ref={folder} >

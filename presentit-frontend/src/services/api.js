@@ -4,7 +4,7 @@ import {store} from '../redux/store';
 import {setCurrentUser} from '../redux/user/user.actions';
 
 const handleUnauthorized = (error) => {
-    console.log('Handling Unauthorized');
+    
     store.dispatch(setCurrentUser(null));
 }
 
