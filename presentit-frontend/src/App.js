@@ -5,6 +5,7 @@ import {Route, Redirect, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
 import HomePage from './pages/HomePage/HomePage.page';
 import LandingPage from './pages/LandingPage/LandingPage.page';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page';
 import api from './services/api';
 import { connect } from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
@@ -61,6 +62,9 @@ function App({setCurrentUser, currentUser}) {
           <Route exact path="/">
               <LandingPage/>
               {/* <HomePage/> */}
+          </Route>
+          <Route exact path="/privacy">
+            <PrivacyPolicyPage></PrivacyPolicyPage>
           </Route>
           <Redirect to="/" />
         </Switch>

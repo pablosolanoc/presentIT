@@ -14,7 +14,8 @@ router.get('/', function(req, res){
 
     let scopes = [
         "https://www.googleapis.com/auth/drive.readonly",
-        "https://www.googleapis.com/auth/userinfo.profile"
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
     ];
 
     //Geting redirect link so user can Sign In with Google
@@ -69,6 +70,7 @@ router.get('/redirect', function(req, res){
                      debug(err);
                   }else {
                       const { id, given_name, family_name, picture } = response.data;
+                      debug(response.data);
                       //Given the user info we search firestore to see if the user exists
                      const dbUsers = db.collection('users');
                      const specificUser = await dbUsers.doc(`${id}`).get();
