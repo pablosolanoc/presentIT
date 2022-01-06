@@ -16,7 +16,7 @@ import Content from '../../components/content/content.component';
 import MyComponent from '../../components/presentationPreview/presentationPreview.component.js';
 // import SignIn from '../../components/sign-In/sign-In.component';
 
-const HomePage = ({currentFolderId, overallLayout}) => {
+const SignInPage = ({currentFolderId, overallLayout}) => {
 
     
     const [myFiles, setMyFiles] = useState({});
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => ({
 
 
 
-export default connect(mapStateToProps, null)(HomePage);
+export default connect(mapStateToProps, null)(SignInPage);

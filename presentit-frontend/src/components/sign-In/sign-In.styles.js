@@ -5,6 +5,7 @@ const SignInStyle = styled.div`
     
 
     display: flex;
+    /* flex-wrap: wrap; */
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
@@ -12,11 +13,14 @@ const SignInStyle = styled.div`
     a{
         text-decoration: none;
         color: black;
+
+        
     }
 
     .buttonSignIn{
         height: 3.5rem;
-        width: 19rem;
+        width: 20vw;
+        min-width: 60px;
         background-color: white;
         display: flex;
         justify-content: space-around;
@@ -38,6 +42,13 @@ const SignInStyle = styled.div`
             box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
             color: rgba(30, 168, 247, 1);
             height: 2rem;
+        }
+
+        .text{
+            @media(max-width: 900px){
+                display: none;
+            }
+            
         }
 
         img{

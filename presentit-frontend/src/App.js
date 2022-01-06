@@ -3,7 +3,7 @@ import './App.css';
 
 import {Route, Redirect, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
-import HomePage from './pages/HomePage/HomePage.page';
+import SignInPage from './pages/SignInPage/SignInPage.page';
 import LandingPage from './pages/LandingPage/LandingPage.page';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page';
 import api from './services/api';
@@ -47,8 +47,11 @@ function App({setCurrentUser, currentUser}) {
     return (
       <div className="App">
         <Switch>
-          <Route  exact path="/">
-              <HomePage/>
+          <Route exact path="/">
+              <SignInPage/>
+          </Route>
+          <Route exact path="/privacy">
+            <PrivacyPolicyPage></PrivacyPolicyPage>
           </Route>
           <Redirect to="/" />
         </Switch>
@@ -59,14 +62,18 @@ function App({setCurrentUser, currentUser}) {
     return(
       <div className="App">
         <Switch>
+          <Route exact path="/signin">
+              <SignInPage/>
+              {/* <SignInPage/> */}
+          </Route>
           <Route exact path="/">
               <LandingPage/>
-              {/* <HomePage/> */}
+              {/* <SignInPage/> */}
           </Route>
           <Route exact path="/privacy">
             <PrivacyPolicyPage></PrivacyPolicyPage>
           </Route>
-          <Redirect to="/" />
+          <Redirect to="/signin" />
         </Switch>
       </div>
     )

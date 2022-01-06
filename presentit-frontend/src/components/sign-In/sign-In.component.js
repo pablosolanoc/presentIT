@@ -11,7 +11,8 @@ const SignIn = () => {
                 
                 <div className='buttonSignIn'>
                     <img src='/images/google.png' ></img>
-                    Sign In with Google
+                    <div className='text'>Sign In with Google</div>
+                    
                 </div>
             </a>
         </SignInStyle>
