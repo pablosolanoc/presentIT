@@ -5,6 +5,7 @@ import {Route, Redirect, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
 import SignInPage from './pages/SignInPage/SignInPage.page';
 import LandingPage from './pages/LandingPage/LandingPage.page';
+import HomePage from './pages/HomePage/HomePage.page';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page';
 import api from './services/api';
 import { connect } from 'react-redux';
@@ -48,7 +49,7 @@ function App({setCurrentUser, currentUser}) {
       <div className="App">
         <Switch>
           <Route exact path="/">
-              <SignInPage/>
+              <HomePage/>
           </Route>
           <Route exact path="/privacy">
             <PrivacyPolicyPage></PrivacyPolicyPage>
