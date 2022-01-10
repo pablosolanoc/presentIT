@@ -16,6 +16,11 @@ var async = require('async');
 // });
 
 /* This is what get the ReactApp*/
+
+router.get('/hola', function(req, res) {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
+
 router.get('/app', function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });

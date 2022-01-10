@@ -67,12 +67,12 @@ function App({setCurrentUser, currentUser}) {
               <SignInPage/>
               {/* <SignInPage/> */}
           </Route>
-          <Route exact path="/">
+          <Route exact path="/home">
               <LandingPage/>
               {/* <SignInPage/> */}
           </Route>
           <Route exact path="/privacy">
-            <PrivacyPolicyPage></PrivacyPolicyPage>
+              <PrivacyPolicyPage></PrivacyPolicyPage>
           </Route>
           <Redirect to="/signin" />
         </Switch>

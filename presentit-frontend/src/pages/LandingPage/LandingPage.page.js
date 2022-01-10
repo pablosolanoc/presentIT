@@ -26,12 +26,18 @@ const LandingPage = () => {
                     </div>
                     <div className='description '>
                         <p>present<span className="itPartDescription">IT </span>
-                        allows you to present your files with the team that you made it with.</p>
-                        <p>It connects directly with <span className="itPartDescription">GoogleDrive </span> and shows all your folders and files.</p>
+                        allows you to present your files with the team that you made them with.</p>
+                        <p>It connects directly with <span className="itPartDescription">GoogleDrive </span> and shows all your folders and files so you can open them and show them to your colleagues.</p>
                         <p>Handle your presentation with present<span className="itPartDescription">IT </span> and make them that little bit easier.</p>
+                        <ul>
+                            
+                        </ul>
                     </div>
-                    <div className="slogan signin">
+                    {/* <div className="slogan signin">
                         <Link to="/signin" className='link'>Sign In</Link>
+                    </div> */}
+                    <div className="privacy ">
+                        Check out our <Link to="privacy">privacy policy</Link> for more information.
                     </div>
                 </div>
                 <div className='animation'>

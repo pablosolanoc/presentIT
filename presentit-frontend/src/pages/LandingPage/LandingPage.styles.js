@@ -80,7 +80,7 @@ const LandingPageStyles = styled.div`
             }
 
             .description{
-                text-align: start;
+                text-align: justify;
                 font-size: 1.1rem;
                 .itPartDescription{
                     font-weight: 900;
@@ -91,6 +91,10 @@ const LandingPageStyles = styled.div`
                     font-size: 1.9rem;
                 }
                 transition: all 0.2s ease-in-out;
+            }
+            .privacy{
+                font-size: 0.8rem;
+                text-align: end;
             }
         }
 

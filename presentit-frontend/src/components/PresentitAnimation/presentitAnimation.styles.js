@@ -28,6 +28,7 @@ const PresenitAnimationStyles = styled.div`
             position: absolute;
             
             
+            
             border: 4px solid #7B61FF;
             box-sizing: border-box;
             border-radius: 15px;
@@ -229,8 +230,8 @@ const PresenitAnimationStyles = styled.div`
             display: flex;
             flex-direction: column;
             
-            box-shadow: inset 6px -4px 4px rgba(0, 0, 0, 0.1), inset 4px -4px 4px rgba(0, 0, 0, 0.15);
-        
+            box-shadow: inset 6px -4px 4px rgba(0, 0, 0, 0.1), inset 4px -4px 4px rgba(0, 0, 0, 0.15), -20px -20px 10px rgba(0, 0, 0, 0.2);
+            
         }
 
         #presentation2{
