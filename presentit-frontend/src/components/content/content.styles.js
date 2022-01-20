@@ -43,7 +43,7 @@ export const ContentStyled = styled.div`
     }
 
     .folders{
-
+        /* background-color: blue; */
         .noFolders{
             width: 100%;
             height: 200px;

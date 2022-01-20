@@ -9,7 +9,7 @@ import Path from '../path/path.component';
 import Files from '../files/files.component';
 import { Title } from '../common.styles';
 import Folder from '../structures/folder/folder.component';
-
+import Loading from '../loading/loading.component';
 import {connect} from 'react-redux';
 
 const Content = ({
@@ -140,12 +140,12 @@ const Content = ({
                         
                     </div>
                     <div className={`folders ${folderLayoutConfig == 0 ? 'layoutType0' : 'layoutType1'}`}>
-                        {actuallyShownFolders}
+                        {!disabled ? actuallyShownFolders : <Loading folders/>}
                     </div>      
                     
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview} disabled={disabled}></Files>
                     </div>
                 </>
             )
@@ -161,7 +161,7 @@ const Content = ({
                     </div>
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview} disabled={disabled}></Files>
                     </div>
                 </>
             )

@@ -12,7 +12,7 @@ const Path = ({path, setPathFrom}) => {
         <PathStyle>
             {
                 path.map((pathEntry, index) => (
-                    <div identifier={index} className='location' onClick={() => setPathFrom(index)}><span>{pathEntry}</span></div>
+                    <div key={index} identifier={index} className='location' onClick={() => setPathFrom(index)}><span>{pathEntry}</span></div>
                 ))
             }
         </PathStyle>

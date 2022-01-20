@@ -36,7 +36,7 @@ const getAllFiles = async (req, res, times) => {
         const wasRequestSuccesful = await getAccessToken(req, refreshToken);
         debug(wasRequestSuccesful);
         if(wasRequestSuccesful){
-            return allFilesCall(req, res, 2);
+            return getAllFiles(req, res, 2);
         }else{
             return res.status(400).send('We were not able to get files')
         }
