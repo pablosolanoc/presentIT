@@ -1,13 +1,14 @@
 import React, {useRef, useEffect} from 'react';
 import {TableStyle} from  './files.styles';
 import Loading from '../loading/loading.component';
+import { connect } from 'react-redux';
 // import './files.styles.css';
 
 
 //Major Credit to DCode, you can find the sorting algorithm at this link
 // https://codepen.io/dcode-software/pen/zYGOrzK
 
-const Files = ({files, setPreview, searchBy, disabled}) => {
+const Files = ({files, setPreview, searchBy, isFetchingFilesFolders}) => {
 
     
 
@@ -88,15 +89,22 @@ const Files = ({files, setPreview, searchBy, disabled}) => {
                         <div className='headerCell lastOpen cell' onClick={(element) => sortTableByColumn(2, getIfAsc(element, 2))}>Last Open</div>
                     </div>
                 </div>
-                {!disabled ? <div id='body'>
-                    { 
-                        showFiles(files)  
-                    }
-                </div> : <Loading files/>}
+                {!isFetchingFilesFolders ? 
+                    <div id='body'>
+                        { 
+                            showFiles(files)  
+                        }
+                    </div> 
+                    : <Loading files/>
+                }
             </div>
     </TableStyle>
     )
 
 }
 
-export default Files;
+const mapStateTopProps = (state) => ({
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders
+})
+
+export default connect(mapStateTopProps, null)(Files);

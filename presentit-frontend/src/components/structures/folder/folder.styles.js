@@ -8,7 +8,7 @@ const FolderStyle = css`
     box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
     transition: all 0.3s ease;
 
-    pointer-events: ${p => p.disabled ? 'none' : 'auto'};
+    pointer-events: ${p => p.isFetchingFilesFolders ? 'none' : 'auto'};
     /* pointer-events: none; */
     cursor: pointer;
 

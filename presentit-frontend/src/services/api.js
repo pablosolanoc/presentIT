@@ -4,7 +4,6 @@ import {store} from '../redux/store';
 import {setCurrentUser} from '../redux/user/user.actions';
 
 const handleUnauthorized = (error) => {
-    
     store.dispatch(setCurrentUser(null));
 }
 
@@ -13,10 +12,10 @@ const api = axios.create({
     withCredentials: true
 });
 
-const getRequestAuthorized = async (url, manageOkResponse, config) => {
+const getRequestAuthorized = async (url, config) => {
     try{
         const response = await api.get(url, config);
-        manageOkResponse(response);
+        return response;
     }catch(error){
         debug(error);
         if(error.response.status === 401){
@@ -24,6 +23,7 @@ const getRequestAuthorized = async (url, manageOkResponse, config) => {
         }else{
             console.log('Handling Other error');
         }
+        return false;
     }
 };
 

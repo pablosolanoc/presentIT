@@ -22,13 +22,12 @@ const Content = ({
                     setFileId,
                     myFolders,
                     sharedFolders,
-                    disabled,
-                    setDisabled,
                     setShowPreview,
                     showPreview,
                     setIsPDF,
                     myFiles,
-                    sharedFiles
+                    sharedFiles,
+                    isFetchingFilesFolders
                 }) => {
 
     
@@ -63,8 +62,6 @@ const Content = ({
                                 shared={displayFolders[keys[i]].shared}
                                 currentFolderId={currentFolderId}
                                 setDisplayConfig={setDisplayConfig}
-                                disabled={disabled}
-                                setDisabled={setDisabled}
                                 searchInput={searchInput}
                         />
                     )
@@ -77,7 +74,7 @@ const Content = ({
         }else{
             setActuallyShownFolders(<div className='noFolders'>No Folders</div>)
         }
-    }, [displayConfig, sharedFolders, myFolders, searchBy, disabled])
+    }, [displayConfig, sharedFolders, myFolders, searchBy, isFetchingFilesFolders])
 
     useEffect(() => {
 
@@ -140,12 +137,12 @@ const Content = ({
                         
                     </div>
                     <div className={`folders ${folderLayoutConfig == 0 ? 'layoutType0' : 'layoutType1'}`}>
-                        {!disabled ? actuallyShownFolders : <Loading folders/>}
+                        {!isFetchingFilesFolders ?  actuallyShownFolders : <Loading folders/>}
                     </div>      
                     
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={actuallyShownFiles} setPreview={setPreview} disabled={disabled}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
             )
@@ -161,7 +158,7 @@ const Content = ({
                     </div>
                     <div className='files'>
                         <Title>Archivos Encontrados</Title>
-                        <Files files={actuallyShownFiles} setPreview={setPreview} disabled={disabled}></Files>
+                        <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
             )
@@ -189,7 +186,12 @@ const Content = ({
 const mapStateToProps = (state) => ({
     currentFolderId: state.structure.currentFolderId,
     folderLayoutConfig: state.layoutConfigs.folderLayoutConfig,
-    overallLayout: state.layoutConfigs.overallLayout
+    overallLayout: state.layoutConfigs.overallLayout,
+    myFiles: state.filesFolders.myFiles,
+    sharedFiles: state.filesFolders.sharedFiles,
+    myFolders: state.filesFolders.myFolders,
+    sharedFolders: state.filesFolders.sharedFolders,
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders
 })
 
 
