@@ -9,9 +9,9 @@ import HomePage from './pages/HomePage/HomePage.page';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page';
 import api from './services/api';
 import { connect } from 'react-redux';
-import {setCurrentUser} from './redux/user/user.actions';
+import {setCurrentUser, setUserLanguage} from './redux/user/user.actions';
 
-function App({setCurrentUser, currentUser}) {
+function App({setCurrentUser, setUserLanguage, currentUser}) {
 
   const handleUser = (response) => {
     
@@ -19,6 +19,13 @@ function App({setCurrentUser, currentUser}) {
       //There is no need to add access token or refresh token to the
       // use reducer because those  are in the cookies, just user info in the reducer
       setCurrentUser(response.data);
+      //In the case the language of the user i not spanish nor english, english is set as default
+      if(response.data.locale === 'es' || response.data.locale === 'en'){
+        setUserLanguage(response.data.locale);
+      }else{
+        setUserLanguage('en');
+      }
+      
     }else{
       //if there is no user as the response was anything other than 200
       setCurrentUser(null);
@@ -87,7 +94,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  setUserLanguage: (language) => dispatch(setUserLanguage(language))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

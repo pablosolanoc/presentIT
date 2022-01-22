@@ -8,7 +8,7 @@ import {ReactComponent as FolderOpenWithThings} from '../../../images/folderOpen
 import { connect } from 'react-redux';
 import { addToPath, setCurrentFolderId } from '../../../redux/structure/structure.actions.js';
 
-const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, searchInput, isFetchingFilesFolders}) => {
+const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, searchInput, isFetchingFilesFolders, setSearchBy}) => {
 
     const FolderStyle = folderLayoutConfig === 0 ? FolderStyleBig : FolderStyleThin;
     
@@ -23,9 +23,11 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
         //make structure reducer change
         
 
-        //This line refers to the search value of the search bar, if a folder is cliked it is resetted to ''.
+        //This line refers to the search value of the search bar, if a folder is clicked it is resetted to ''.
         searchInput.current.value = '';
-        
+        //The term we are searching by also neede to be set to '' as filter is still applied if not
+        setSearchBy('');
+
         if(currentFolderId === 'root'){
             // setDisplayConfig(2);
             if(mine){

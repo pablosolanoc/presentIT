@@ -11,14 +11,16 @@ const LandingPage = () => {
     
     return(
         <SignInStyle>
-            <div className='presentation icon'>
-                <Logo className='logo'></Logo>
-            </div>
-            <div className='presentation name'>
-                present<span id='itPart'>IT</span>
-            </div>
-            <div className='presentation signIn'>
-                <SignIn></SignIn>
+            <div className='all'>
+                <div className='presentation icon'>
+                    <Logo className='logo'></Logo>
+                </div>
+                <div className='presentation name'>
+                    present<span id='itPart'>IT</span>
+                </div>
+                <div className='presentation signIn'>
+                    <SignIn></SignIn>
+                </div>
             </div>
         </SignInStyle>
     )

@@ -56,7 +56,13 @@ const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
           ))
         }
       </ActiveUsersStyle>
-      {showPreview ? <PresentationCanvas fileId={fileId} isPDF={isPDF} activeUsers={activeUsers} setActiveUsers={setActiveUsers} lastActiveUser={lastActiveUser} setLastActiveUser={setLastActiveUser}/> : []}
+      
+        
+        {showPreview ? <PresentationCanvas fileId={fileId} isPDF={isPDF} activeUsers={activeUsers} setActiveUsers={setActiveUsers} lastActiveUser={lastActiveUser} setLastActiveUser={setLastActiveUser}></PresentationCanvas> : []}
+      
+      
+      
+      
     </PreviewStyle>  
   )
 

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import {setCurrentUser} from '../../redux/user/user.actions';
 
-const User = ({setCurrentUser, currentUser}) => {
+const User = ({setCurrentUser, currentUser, userLanguage}) => {
 
     const [showSubMenu, setShowSubMenu] = useState(false);
 
@@ -25,7 +25,7 @@ const User = ({setCurrentUser, currentUser}) => {
             <img src={currentUser.picture} onClick={toggleSubMenu}></img>
             { showSubMenu && <div className='subMenu' >
                     <div className='entry' onClick={signOut}>
-                        Sign Out
+                        {userLanguage === 'en' ? 'Sign Out' : 'Salir'}
                         <SignOut></SignOut>
                     </div>
                 </div>}
@@ -35,7 +35,8 @@ const User = ({setCurrentUser, currentUser}) => {
 }
 
 const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    userLanguage: state.user.userLanguage
   })
   
   const mapDispatchToProps = (dispatch) => ({

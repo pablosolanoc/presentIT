@@ -12,6 +12,8 @@ import Folder from '../structures/folder/folder.component';
 import Loading from '../loading/loading.component';
 import {connect} from 'react-redux';
 
+import { contentFiles } from "../../content/contentFiles";
+
 const Content = ({
                     folderLayoutConfig,
                     overallLayout,
@@ -27,7 +29,8 @@ const Content = ({
                     setIsPDF,
                     myFiles,
                     sharedFiles,
-                    isFetchingFilesFolders
+                    isFetchingFilesFolders,
+                    userLanguage
                 }) => {
 
     
@@ -35,6 +38,8 @@ const Content = ({
     const [actuallyShownFolders, setActuallyShownFolders] = useState([]);
     const [actuallyShownFiles, setActuallyShownFiles] = useState([]);
     const searchInput = useRef(null);
+
+    const content = contentFiles[userLanguage];
 
     useEffect(() => {
         let displayFolders = {};
@@ -63,6 +68,7 @@ const Content = ({
                                 currentFolderId={currentFolderId}
                                 setDisplayConfig={setDisplayConfig}
                                 searchInput={searchInput}
+                                setSearchBy={setSearchBy}
                         />
                     )
                 }
@@ -141,7 +147,7 @@ const Content = ({
                     </div>      
                     
                     <div className='files'>
-                        <Title>Archivos Encontrados</Title>
+                        <Title>{content[0]}</Title>
                         <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
@@ -157,7 +163,7 @@ const Content = ({
                         {/* <Path></Path> */}
                     </div>
                     <div className='files'>
-                        <Title>Archivos Encontrados</Title>
+                        <Title>{content[0]}</Title>
                         <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
@@ -191,7 +197,8 @@ const mapStateToProps = (state) => ({
     sharedFiles: state.filesFolders.sharedFiles,
     myFolders: state.filesFolders.myFolders,
     sharedFolders: state.filesFolders.sharedFolders,
-    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders,
+    userLanguage: state.user.userLanguage
 })
 
 

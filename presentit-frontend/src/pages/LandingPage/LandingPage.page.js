@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import LandingPageStyles from './LandingPage.styles';
 
@@ -7,7 +7,14 @@ import {ReactComponent as Logo} from '../../images/logo.svg';
 
 import { Link } from 'react-router-dom';
 
-const LandingPage = () => {
+import { connect } from 'react-redux';
+
+import { contentLandingPage } from '../../content/contentLandingPage';
+
+const LandingPage = ({userLanguage}) => {
+
+    const content = contentLandingPage[userLanguage];    
+
     return(
         <LandingPageStyles>
             <div className="centralPiece">
@@ -22,13 +29,13 @@ const LandingPage = () => {
                         <span id="itPart">IT</span>
                     </div>
                     <div className="slogan section">
-                        Present it as a team
+                        {content[0]}
                     </div>
                     <div className='description '>
                         <p>present<span className="itPartDescription">IT </span>
-                        allows you to present your files with the team that you made them with.</p>
-                        <p>It connects directly with <span className="itPartDescription">GoogleDrive </span> and shows all your folders and files so you can open them and show them to your colleagues.</p>
-                        <p>Handle your presentation with present<span className="itPartDescription">IT </span> and make them that little bit easier.</p>
+                        {content[1]}</p>
+                        <p>{content[2]}<span className="itPartDescription">GoogleDrive. </span> {content[3]} </p>
+                        <p>{content[4]}<span className="itPartDescription">IT </span> {content[5]}</p>
                         <ul>
                             
                         </ul>
@@ -37,7 +44,7 @@ const LandingPage = () => {
                         <Link to="/signin" className='link'>Sign In</Link>
                     </div> */}
                     <div className="privacy ">
-                        Check out our <Link to="privacy">privacy policy</Link> for more information.
+                        {content[6]} <Link to="privacy">{content[7]}</Link> {content[8]}
                     </div>
                 </div>
                 <div className='animation'>
@@ -49,4 +56,8 @@ const LandingPage = () => {
     )
 }
 
-export default LandingPage;
+const mapStateToProps = (state) => ({
+    userLanguage: state.user.userLanguage
+})
+
+export default connect(mapStateToProps, null)(LandingPage);

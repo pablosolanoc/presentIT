@@ -19,7 +19,7 @@ const SignInStyle = styled.div`
 
     .buttonSignIn{
         height: 3.5rem;
-        width: 20vw;
+        width: 100%;
         min-width: 60px;
         background-color: white;
         display: flex;

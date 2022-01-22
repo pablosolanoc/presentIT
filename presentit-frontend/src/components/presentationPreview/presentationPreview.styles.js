@@ -30,6 +30,10 @@ export const PreviewStyle = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    /* position: relative; */
+
+    
 `;
 
 export const ActiveUsersStyle = styled.div`

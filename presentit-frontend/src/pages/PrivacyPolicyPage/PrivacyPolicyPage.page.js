@@ -2,6 +2,7 @@ import React from 'react';
 
 import PrivacyPolicyStyle from './PrivacyPolicyPage.styles';
 import {ReactComponent as Logo} from '../../images/logo.svg';
+import { Link } from 'react-router-dom';
 
 const PrivacyPolicyPage = () => {
     
@@ -10,7 +11,7 @@ const PrivacyPolicyPage = () => {
             
             <div className='centerPiece'>
                 <div className='logo'>
-                    <Logo className='image'></Logo>
+                    <Link to='/home'><Logo className='image'></Logo></Link>
                 </div>
                 
                 <h1>Privacy Policy for presentIT</h1>

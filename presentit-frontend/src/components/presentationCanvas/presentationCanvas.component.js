@@ -1,10 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { connect } from 'react-redux';
 
-import {CanvasStyle} from './presentationCanvas.styles';
+import {CanvasStyle, CanvasHolder} from './presentationCanvas.styles';
 import {setCurrentUser} from '../../redux/user/user.actions';
 import {io} from 'socket.io-client';
-
+import {ReactComponent as LeftArrow} from '../../images/arrowLeft.svg';
+import {ReactComponent as RightArrow} from '../../images/arrowRight.svg';
 
 const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser}) => {
 
@@ -19,6 +20,9 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
     let [ctx, setCTX] = useState(null);
     let canvas = useRef(null);
     let [pageNumIsPending, setPageNumIsPending] = useState(null);
+
+    let xStart = null;
+    let xNewest = null;
     // let goFull = useRef(null);
     const pdfjsLib = window.pdfjsLib;
 
@@ -209,9 +213,51 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
       }
     }
 
+    const funcion = (event) => {
+      console.log(event)
+      xNewest = event.changedTouches[0].clientX;
+      
+      let difference = (xStart - xNewest);
+      console.log(difference);
+      if(difference > 0){
+        if(difference > 80){
+          showNextPage();
+        }
+      }else{
+        if(difference < -80){
+          showPrevPage();
+        }
+      }
+    }
+
+    const funcion2 = (event) => {
+      xStart = event.targetTouches[0].clientX;
+      console.log(xStart);
+    }
+
+    const goLeftPressed = (event) => {
+      event.stopPropagation();
+      showPrevPage();
+    }
+
+    const goRightPressed = (event) => {
+      event.stopPropagation();
+      showNextPage();
+    }
+
     return(
-        <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed}>
+      <CanvasHolder>
+        <div className='go goLeft' onClick={goLeftPressed}>
+          <LeftArrow className='arrow'></LeftArrow>
+        </div>
+        
+        <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed} onTouchStart={funcion2} onTouchEnd={funcion}>
         </CanvasStyle>
+
+        <div className='go goRight' onClick={goRightPressed}>
+          <RightArrow className='arrow'></RightArrow>
+        </div>
+      </CanvasHolder>
     )
 }
 
