@@ -10,6 +10,8 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page'
 import api from './services/api';
 import { connect } from 'react-redux';
 import {setCurrentUser, setUserLanguage, setCSRFToken} from './redux/user/user.actions';
+import Footer from './components/footer/footer.component';
+
 
 function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken, userLanguage}) {
 
@@ -96,6 +98,7 @@ function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken, userLa
           </Route>
           <Redirect to="/signin" />
         </Switch>
+        
       </div>
     )
   }
