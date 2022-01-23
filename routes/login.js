@@ -107,12 +107,13 @@ router.get('/info', function(req, res){
     // debug('Session: \n\n');
     // debug(req.session);
     try{
-        // debug('hello');
+        debug('hello\n\n');
         const {info} = req.session.user;
         // debug(info);
-        res.send(info);
+        res.send({info, csrfToken: req.csrfToken()});
+        debug('hello 22\n\n');
     }catch(error){
-        // debug(error);
+        debug(error);
         res.status(204);
         res.send('204: No user info');
     } 

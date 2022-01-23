@@ -15,7 +15,7 @@ import Content from '../../components/content/content.component';
 import MyComponent from '../../components/presentationPreview/presentationPreview.component.js';
 // import SignIn from '../../components/sign-In/sign-In.component';
 
-const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync}) => {
+const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync, CSRFToken}) => {
 
     
     const [myFiles, setMyFiles] = useState({});
@@ -36,8 +36,10 @@ const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync}) =>
 
 
     useEffect(() => {
-        fetchFilesFoldersAsync(displayConfig, overallLayout, currentFolderId);
-    }, [currentFolderId, overallLayout]);
+        console.log('holaaa\n\n');
+        console.log(CSRFToken);
+        fetchFilesFoldersAsync(displayConfig, overallLayout, currentFolderId, CSRFToken);
+    }, [currentFolderId, overallLayout, CSRFToken]);
 
     
 
@@ -76,10 +78,11 @@ const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync}) =>
 const mapStateToProps = (state) => ({
     currentFolderId: state.structure.currentFolderId,
     overallLayout: state.layoutConfigs.overallLayout,
+    CSRFToken: state.user.CSRFToken
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFilesFoldersAsync: (displayConfig ,overallLayout, currentFolderId) => dispatch(fetchFilesFoldersAsync(displayConfig ,overallLayout, currentFolderId))
+    fetchFilesFoldersAsync: (displayConfig ,overallLayout, currentFolderId, CSRFToken) => dispatch(fetchFilesFoldersAsync(displayConfig ,overallLayout, currentFolderId, CSRFToken))
 })
 
 

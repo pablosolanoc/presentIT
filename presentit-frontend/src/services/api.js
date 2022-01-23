@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { debug } from 'debug';
 import {store} from '../redux/store';
-import {setCurrentUser} from '../redux/user/user.actions';
+import {setCurrentUser, setCSRFToken} from '../redux/user/user.actions';
 
 const handleUnauthorized = (error) => {
+    store.dispatch(setCSRFToken(null));
     store.dispatch(setCurrentUser(null));
 }
 

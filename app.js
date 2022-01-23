@@ -8,7 +8,7 @@ var logger = require('morgan');
 var methodOverride = require("method-override");
 var debug = require("debug")("PRESENTIT:app");
 var cors = require('cors');
-
+var csrf = require('csurf');
 
 var session = require("express-session");
 var MemoryStore = require('memorystore')(session);
@@ -100,10 +100,13 @@ app.use(methodOverride("_method"));
 
 
 app.use(session(sessionConfig));
+
 app.use('/', indexRouter);
 // app.use('/action', indexRouter);
-app.use('/users', usersRouter);
+app.use(csrf({cookie: true}))
 app.use('/login', loginRouter);
+app.use(csrf({cookie: true, ignoreMethods: ['HEAD', 'OPTIONS']}))
+app.use('/users', usersRouter);
 app.use('/drive', driveRouter);
 
 

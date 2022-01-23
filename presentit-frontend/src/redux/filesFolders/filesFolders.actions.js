@@ -1,5 +1,6 @@
 import {getRequestAuthorized} from '../../services/api';
 
+
 export const fetchFilesFoldersStart = () => ({
     type: 'FETCH_FILES_FOLDERS_START',
 });
@@ -9,7 +10,7 @@ export const fetchFilesFoldersSuccess = (filesFolders) => ({
     payload: filesFolders
 });
 
-export const fetchFilesFoldersAsync = (displayConfig ,overallLayout, currentFolderId) => {
+export const fetchFilesFoldersAsync = (displayConfig ,overallLayout, currentFolderId, CSRFToken) => {
     return async (dispatch) => {
         let config = {
             params: {
@@ -17,16 +18,13 @@ export const fetchFilesFoldersAsync = (displayConfig ,overallLayout, currentFold
                 overallLayout: overallLayout
             },
             headers: {
-                folderid: currentFolderId
+                folderid: currentFolderId,
+                'CSRF-Token': CSRFToken
             }
         }
-        
         dispatch(fetchFilesFoldersStart());
         const allFilesFolders = await getRequestAuthorized('/drive/structure', config);
-        console.log(allFilesFolders)
         if(allFilesFolders){
-            
-        
             const {folders, files} = allFilesFolders.data;
             // const folders = ;
             const {ownFiles, sharedFiles} = files;

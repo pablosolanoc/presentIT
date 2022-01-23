@@ -2,12 +2,12 @@ import React, {useEffect, useState, useRef} from 'react';
 import { connect } from 'react-redux';
 
 import {CanvasStyle, CanvasHolder} from './presentationCanvas.styles';
-import {setCurrentUser} from '../../redux/user/user.actions';
+import {setCSRFToken, setCurrentUser} from '../../redux/user/user.actions';
 import {io} from 'socket.io-client';
 import {ReactComponent as LeftArrow} from '../../images/arrowLeft.svg';
 import {ReactComponent as RightArrow} from '../../images/arrowRight.svg';
 
-const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser}) => {
+const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser, CSRFToken, setCSRFToken}) => {
 
     // let canvas = useRef(null);
 
@@ -138,7 +138,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
 
       let pdfFile = `?fileId=${fileId}&pdfFile=${isPDF ? 1 : 0}`;
 
-      pdfjsLib.getDocument({url: `${process.env.REACT_APP_BACK_END_ROUTE}/drive/pdf${pdfFile}`, withCredentials: true}).promise.then((remotePdfDoc) => {
+      pdfjsLib.getDocument({url: `${process.env.REACT_APP_BACK_END_ROUTE}/drive/pdf${pdfFile}`, withCredentials: true, httpHeaders : {'CSRF-Token': CSRFToken}}).promise.then((remotePdfDoc) => {
         // console.log('buuu\n\n');
         // console.log(remotePdfDoc);
         setPdfDoc(remotePdfDoc);
@@ -149,6 +149,7 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
         
         //Request made while Unauthorized
         if(err.status === 401){
+          setCSRFToken(null);
           setCurrentUser(null);
         }
       })
@@ -262,11 +263,13 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  CSRFToken: state.user.CSRFToken
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => {dispatch(setCurrentUser(user))}
+  setCurrentUser: (user) => {dispatch(setCurrentUser(user))},
+  setCSRFToken: (CSRFToken) => {dispatch(setCSRFToken(CSRFToken))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PresentationCanvas);

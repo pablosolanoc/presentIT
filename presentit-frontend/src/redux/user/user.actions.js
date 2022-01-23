@@ -10,6 +10,11 @@ export const setUserLanguage = (language) => ({
     payload: language
 });
 
+export const setCSRFToken = (CSRFToken) => ({
+    type: 'SET_CSRF_TOKEN',
+    payload: CSRFToken
+});
+
 export const setCurrentAccessToken = (accessToken) => ({
     type: 'SET_CURRENT_ACCESS_TOKEN',
     payload: accessToken
