@@ -38,7 +38,7 @@ export const fetchFilesFoldersAsync = (displayConfig ,overallLayout, currentFold
 
             const filesFolders = {ownFiles,sharedFiles, ownFolders, sharedFolders};
 
-            console.log(filesFolders);
+            
             dispatch(fetchFilesFoldersSuccess(filesFolders));
         }
     }

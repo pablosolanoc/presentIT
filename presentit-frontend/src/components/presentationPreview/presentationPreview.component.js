@@ -4,10 +4,12 @@ import  {PreviewStyle, ActiveUsersStyle} from './presentationPreview.styles';
 
 import PresentationCanvas from '../presentationCanvas/presentationCanvas.component'
 
+
 const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
 
   let [activeUsers, setActiveUsers] = useState([]);
   let [lastActiveUser, setLastActiveUser] = useState(null);
+  
   
   useEffect(() => {
     if(showPreview){
@@ -19,7 +21,6 @@ const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
 
 
   useEffect(() => {
-    console.log(activeUsers);
 
     const newActiveUsers = [];
     if(lastActiveUser !== null){
@@ -36,13 +37,14 @@ const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
 
   }, [lastActiveUser])
   
-  useEffect(() => {
-    console.log("Rendering Preview")
-  }, []);
 
   const clickOutside = () => {
     setActiveUsers([]);
     setShowPreview(!showPreview)
+  }
+
+  const clickOnUser = (event) => {
+    event.stopPropagation();
   }
 
   return(
@@ -50,15 +52,15 @@ const MyComponent = ({setShowPreview, showPreview, fileId, isPDF}) => {
       <ActiveUsersStyle>
         { 
           activeUsers.map((user) => (
-            <div className='activeUser'>
-              <img src={user.picture}></img>
+            <div className='activeUser' onClick={clickOnUser} >
+              <img src={user.picture} role="img" alt="presenIT-user" title={`${user.given_name} ${user.family_name}`}></img>
             </div>
           ))
         }
       </ActiveUsersStyle>
       
         
-        {showPreview ? <PresentationCanvas fileId={fileId} isPDF={isPDF} activeUsers={activeUsers} setActiveUsers={setActiveUsers} lastActiveUser={lastActiveUser} setLastActiveUser={setLastActiveUser}></PresentationCanvas> : []}
+        {showPreview ? <PresentationCanvas fileId={fileId} isPDF={isPDF} activeUsers={activeUsers} setActiveUsers={setActiveUsers} lastActiveUser={lastActiveUser} setLastActiveUser={setLastActiveUser} clickOutside={clickOutside}></PresentationCanvas> : []}
       
       
       

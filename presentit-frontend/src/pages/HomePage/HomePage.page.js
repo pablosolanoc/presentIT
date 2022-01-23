@@ -36,8 +36,8 @@ const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync, CSR
 
 
     useEffect(() => {
-        console.log('holaaa\n\n');
-        console.log(CSRFToken);
+        
+        
         fetchFilesFoldersAsync(displayConfig, overallLayout, currentFolderId, CSRFToken);
     }, [currentFolderId, overallLayout, CSRFToken]);
 

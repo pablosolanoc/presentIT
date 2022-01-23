@@ -11,7 +11,7 @@ import api from './services/api';
 import { connect } from 'react-redux';
 import {setCurrentUser, setUserLanguage, setCSRFToken} from './redux/user/user.actions';
 
-function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken}) {
+function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken, userLanguage}) {
 
   const handleUser = (response) => {
     
@@ -22,13 +22,14 @@ function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken}) {
       const data = response.data;
     
       setCurrentUser(data.info);
-
+      
+      
     
       setCSRFToken(data.csrfToken);
-
       //In the case the language of the user i not spanish nor english, english is set as default
-      if(response.data.locale === 'es' || response.data.locale === 'en'){
-        setUserLanguage(response.data.locale);
+      
+      if(data.info.locale === 'es' || data.info.locale === 'en'){
+        setUserLanguage(data.info.locale);
       }else{
         setUserLanguage('en');
       }
@@ -36,6 +37,10 @@ function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken}) {
     }else{
       //if there is no user as the response was anything other than 200
       setCurrentUser(null);
+      //If there is no language the it defauls to english, otherwise it will be the last one the had when signed in
+      if(!userLanguage){
+        setUserLanguage('en');
+      }
     }
   }
 
@@ -54,6 +59,7 @@ function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken}) {
       
     }
     fetchUserData();
+    
     // setCurrentUser(null);
   }, [])
 
@@ -97,7 +103,8 @@ function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken}) {
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  userLanguage: state.user.userLanguage,
 })
 
 const mapDispatchToProps = (dispatch) => ({

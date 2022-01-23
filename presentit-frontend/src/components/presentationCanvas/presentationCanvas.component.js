@@ -6,8 +6,9 @@ import {setCSRFToken, setCurrentUser} from '../../redux/user/user.actions';
 import {io} from 'socket.io-client';
 import {ReactComponent as LeftArrow} from '../../images/arrowLeft.svg';
 import {ReactComponent as RightArrow} from '../../images/arrowRight.svg';
+import Loading from '../loading/loading.component';
 
-const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser, CSRFToken, setCSRFToken}) => {
+const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser, CSRFToken, setCSRFToken, clickOutside}) => {
 
     // let canvas = useRef(null);
 
@@ -19,7 +20,10 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
      // let pdfDoc = null;
     let [ctx, setCTX] = useState(null);
     let canvas = useRef(null);
+    let goLeft = useRef(null);
+    let goRight = useRef(null);
     let [pageNumIsPending, setPageNumIsPending] = useState(null);
+    let [loading, setLoading] = useState(true);
 
     let xStart = null;
     let xNewest = null;
@@ -107,44 +111,50 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
     }
 
     useEffect(() => {
-        setCTX(canvas.current.getContext('2d'))
-        console.log("Rendering Canvas");
+      const newSocket = io(`${process.env.REACT_APP_BACK_END_ROUTE}`, {
+        withCredentials: true,
+        query: {
+          room: fileId
+        }
+      });
+      newSocket.on("connect", (socket) => {
+        //Conectado
+      });
+      newSocket.on("updatePage", (page, user) => {
         
-        canvas.current.focus();
-        //Socket Functions
-        const newSocket = io(`${process.env.REACT_APP_BACK_END_ROUTE}`, {
-          withCredentials: true,
-          query: {
-            room: fileId
-          }
-        });
-        newSocket.on("connect", (socket) => {
-          console.log('Conectado');
-        });
-        newSocket.on("updatePage", (page, user) => {
-          console.log('\n\nMe ha llegado una actualizacion de pagina\n\n');
-          
-          setLastActiveUser(user);
+        
+        setLastActiveUser(user);
 
-          setPageNum(page);
-        });
+        setPageNum(page);
+      });
 
-        setSocket(newSocket);
-        // console.log(pdfjsLib);
-    }, []);
+      setSocket(newSocket);
+
+    }, [])
 
     useEffect(() => {
-      console.log({fileId, isPDF});
+        if(!loading){
+          setCTX(canvas.current.getContext('2d'))
+          // console.log("Rendering Canvas");
+          
+          canvas.current.focus();
+          //Socket Functions
+        }
+        
+    }, [loading]);
+
+    useEffect(() => {
+      
 
       let pdfFile = `?fileId=${fileId}&pdfFile=${isPDF ? 1 : 0}`;
 
       pdfjsLib.getDocument({url: `${process.env.REACT_APP_BACK_END_ROUTE}/drive/pdf${pdfFile}`, withCredentials: true, httpHeaders : {'CSRF-Token': CSRFToken}}).promise.then((remotePdfDoc) => {
-        // console.log('buuu\n\n');
-        // console.log(remotePdfDoc);
+        
+        
         setPdfDoc(remotePdfDoc);
-        console.log(remotePdfDoc)
-        // pdfDoc = remotePdfDoc;
-        // console.log(pdfDoc)
+        
+        setLoading(false);
+        
       }).catch((err) => {
         
         //Request made while Unauthorized
@@ -211,15 +221,17 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
         showNextPage();
       }else if(event.code === "ArrowLeft"){
         showPrevPage();
+      }else if(event.code === "Escape"){
+        clickOutside();
       }
     }
 
     const funcion = (event) => {
-      console.log(event)
+      
       xNewest = event.changedTouches[0].clientX;
       
       let difference = (xStart - xNewest);
-      console.log(difference);
+      
       if(difference > 0){
         if(difference > 80){
           showNextPage();
@@ -233,29 +245,42 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
 
     const funcion2 = (event) => {
       xStart = event.targetTouches[0].clientX;
-      console.log(xStart);
+      
     }
 
     const goLeftPressed = (event) => {
+      canvas.current.focus();
       event.stopPropagation();
-      showPrevPage();
+      if(!loading){
+        showPrevPage();
+      }    
     }
 
     const goRightPressed = (event) => {
+      canvas.current.focus();
+      // console.log(event);
       event.stopPropagation();
-      showNextPage();
+      if(!loading){
+        showNextPage();
+      }
+    }
+
+    const goKeyUp = (event) => {
+      if(event.code === "Escape"){
+        clickOutside();
+      }
     }
 
     return(
       <CanvasHolder>
-        <div className='go goLeft' onClick={goLeftPressed}>
+        <div className='go goLeft' onClick={goLeftPressed} ref={goLeft}>
           <LeftArrow className='arrow'></LeftArrow>
         </div>
+        {loading ? <Loading></Loading> : <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed} onTouchStart={funcion2} onTouchEnd={funcion}>
+        </CanvasStyle>}
         
-        <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed} onTouchStart={funcion2} onTouchEnd={funcion}>
-        </CanvasStyle>
 
-        <div className='go goRight' onClick={goRightPressed}>
+        <div className='go goRight' onClick={goRightPressed} onKeyUp={goKeyUp} ref={goRight}>
           <RightArrow className='arrow'></RightArrow>
         </div>
       </CanvasHolder>
