@@ -7,8 +7,11 @@ import { setOverallLayout } from "../../redux/layoutConfigs/layoutConfigs.action
 
 import {ReactComponent as Logo} from '../../images/logo.svg';
 
-const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayout, currentFolderId, setPathFrom}) => {
+import { contentSideBar } from "../../content/contentSideBar";
 
+const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayout, currentFolderId, setPathFrom, userLanguage}) => {
+
+    const content = contentSideBar[userLanguage];
 
     const changeTypeFolder = (type) => {
         if(currentFolderId === 'root'){
@@ -26,18 +29,19 @@ const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayo
             <div className='logo' >
                 <Logo className='logoImage'></Logo>
             </div>
-            <div className={`config ${displayConfig === 2 ? 'selected' : ''}`} onClick={() => changeTypeFolder(2)}>All</div>
-            <div className={`config ${displayConfig === 0 ? 'selected' : ''}`} onClick={() => changeTypeFolder(0)}>Mine</div>
-            <div className={`config ${displayConfig === 1 ? 'selected' : ''}`} onClick={() => changeTypeFolder(1)}>Shared with me</div>
+            <div className={`config ${displayConfig === 2 ? 'selected' : ''}`} onClick={() => changeTypeFolder(2)}>{content[0]}</div>
+            <div className={`config ${displayConfig === 0 ? 'selected' : ''}`} onClick={() => changeTypeFolder(0)}>{content[1]}</div>
+            <div className={`config ${displayConfig === 1 ? 'selected' : ''}`} onClick={() => changeTypeFolder(1)}>{content[2]}</div>
             <div></div>
-            <div className={`config ${overallLayout === 0 ? 'selected' : ''}`} onClick={() => setOverallLayout(overallLayout === 0 ? 1 : 0)}>Just Files</div>
+            <div className={`config ${overallLayout === 0 ? 'selected' : ''}`} onClick={() => setOverallLayout(overallLayout === 0 ? 1 : 0)}>{content[3]}</div>
         </SideBarStyle>
     );
 
 }
 
 const mapStateToProps = (state) => ({
-    overallLayout:  state.layoutConfigs.overallLayout
+    overallLayout:  state.layoutConfigs.overallLayout,
+    userLanguage: state.user.userLanguage
 })
 
 const mapDisptachToProps = (dispatch) => ({

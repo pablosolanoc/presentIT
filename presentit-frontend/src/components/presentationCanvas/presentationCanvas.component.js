@@ -1,12 +1,14 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { connect } from 'react-redux';
 
-import {CanvasStyle} from './presentationCanvas.styles';
-import {setCurrentUser} from '../../redux/user/user.actions';
+import {CanvasStyle, CanvasHolder} from './presentationCanvas.styles';
+import {setCSRFToken, setCurrentUser} from '../../redux/user/user.actions';
 import {io} from 'socket.io-client';
+import {ReactComponent as LeftArrow} from '../../images/arrowLeft.svg';
+import {ReactComponent as RightArrow} from '../../images/arrowRight.svg';
+import Loading from '../loading/loading.component';
 
-
-const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser}) => {
+const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeUsers, setActiveUsers, lastActiveUser, setLastActiveUser, CSRFToken, setCSRFToken, clickOutside}) => {
 
     // let canvas = useRef(null);
 
@@ -18,7 +20,13 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
      // let pdfDoc = null;
     let [ctx, setCTX] = useState(null);
     let canvas = useRef(null);
+    let goLeft = useRef(null);
+    let goRight = useRef(null);
     let [pageNumIsPending, setPageNumIsPending] = useState(null);
+    let [loading, setLoading] = useState(true);
+
+    let xStart = null;
+    let xNewest = null;
     // let goFull = useRef(null);
     const pdfjsLib = window.pdfjsLib;
 
@@ -103,48 +111,55 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
     }
 
     useEffect(() => {
-        setCTX(canvas.current.getContext('2d'))
-        console.log("Rendering Canvas");
+      const newSocket = io(`${process.env.REACT_APP_BACK_END_ROUTE}`, {
+        withCredentials: true,
+        query: {
+          room: fileId
+        }
+      });
+      newSocket.on("connect", (socket) => {
+        //Conectado
+      });
+      newSocket.on("updatePage", (page, user) => {
         
-        canvas.current.focus();
-        //Socket Functions
-        const newSocket = io("http://localhost:8000", {
-          withCredentials: true,
-          query: {
-            room: fileId
-          }
-        });
-        newSocket.on("connect", (socket) => {
-          console.log('Conectado');
-        });
-        newSocket.on("updatePage", (page, user) => {
-          console.log('\n\nMe ha llegado una actualizacion de pagina\n\n');
-          
-          setLastActiveUser(user);
+        
+        setLastActiveUser(user);
 
-          setPageNum(page);
-        });
+        setPageNum(page);
+      });
 
-        setSocket(newSocket);
-        // console.log(pdfjsLib);
-    }, []);
+      setSocket(newSocket);
+
+    }, [])
 
     useEffect(() => {
-      console.log({fileId, isPDF});
+        if(!loading){
+          setCTX(canvas.current.getContext('2d'))
+          // console.log("Rendering Canvas");
+          
+          canvas.current.focus();
+          //Socket Functions
+        }
+        
+    }, [loading]);
+
+    useEffect(() => {
+      
 
       let pdfFile = `?fileId=${fileId}&pdfFile=${isPDF ? 1 : 0}`;
 
-      pdfjsLib.getDocument({url: `${process.env.REACT_APP_BACK_END_ROUTE}/drive/pdf${pdfFile}`, withCredentials: true}).promise.then((remotePdfDoc) => {
-        // console.log('buuu\n\n');
-        // console.log(remotePdfDoc);
+      pdfjsLib.getDocument({url: `${process.env.REACT_APP_BACK_END_ROUTE}/drive/pdf${pdfFile}`, withCredentials: true, httpHeaders : {'CSRF-Token': CSRFToken}}).promise.then((remotePdfDoc) => {
+        
+        
         setPdfDoc(remotePdfDoc);
-        console.log(remotePdfDoc)
-        // pdfDoc = remotePdfDoc;
-        // console.log(pdfDoc)
+        
+        setLoading(false);
+        
       }).catch((err) => {
         
         //Request made while Unauthorized
         if(err.status === 401){
+          setCSRFToken(null);
           setCurrentUser(null);
         }
       })
@@ -206,21 +221,80 @@ const PresentationCanvas = ({fileId, isPDF, setCurrentUser, currentUser, activeU
         showNextPage();
       }else if(event.code === "ArrowLeft"){
         showPrevPage();
+      }else if(event.code === "Escape"){
+        clickOutside();
+      }
+    }
+
+    const funcion = (event) => {
+      
+      xNewest = event.changedTouches[0].clientX;
+      
+      let difference = (xStart - xNewest);
+      
+      if(difference > 0){
+        if(difference > 80){
+          showNextPage();
+        }
+      }else{
+        if(difference < -80){
+          showPrevPage();
+        }
+      }
+    }
+
+    const funcion2 = (event) => {
+      xStart = event.targetTouches[0].clientX;
+      
+    }
+
+    const goLeftPressed = (event) => {
+      canvas.current.focus();
+      event.stopPropagation();
+      if(!loading){
+        showPrevPage();
+      }    
+    }
+
+    const goRightPressed = (event) => {
+      canvas.current.focus();
+      // console.log(event);
+      event.stopPropagation();
+      if(!loading){
+        showNextPage();
+      }
+    }
+
+    const goKeyUp = (event) => {
+      if(event.code === "Escape"){
+        clickOutside();
       }
     }
 
     return(
-        <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed}>
-        </CanvasStyle>
+      <CanvasHolder>
+        <div className='go goLeft' onClick={goLeftPressed} ref={goLeft}>
+          <LeftArrow className='arrow'></LeftArrow>
+        </div>
+        {loading ? <Loading></Loading> : <CanvasStyle tabIndex="0" ref={canvas} onClick={fullScreen} onKeyUp={keyPressed} onTouchStart={funcion2} onTouchEnd={funcion}>
+        </CanvasStyle>}
+        
+
+        <div className='go goRight' onClick={goRightPressed} onKeyUp={goKeyUp} ref={goRight}>
+          <RightArrow className='arrow'></RightArrow>
+        </div>
+      </CanvasHolder>
     )
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  CSRFToken: state.user.CSRFToken
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => {dispatch(setCurrentUser(user))}
+  setCurrentUser: (user) => {dispatch(setCurrentUser(user))},
+  setCSRFToken: (CSRFToken) => {dispatch(setCSRFToken(CSRFToken))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PresentationCanvas);

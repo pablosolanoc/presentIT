@@ -9,8 +9,10 @@ import Path from '../path/path.component';
 import Files from '../files/files.component';
 import { Title } from '../common.styles';
 import Folder from '../structures/folder/folder.component';
-
+import Loading from '../loading/loading.component';
 import {connect} from 'react-redux';
+
+import { contentFiles } from "../../content/contentFiles";
 
 const Content = ({
                     folderLayoutConfig,
@@ -22,13 +24,13 @@ const Content = ({
                     setFileId,
                     myFolders,
                     sharedFolders,
-                    disabled,
-                    setDisabled,
                     setShowPreview,
                     showPreview,
                     setIsPDF,
                     myFiles,
-                    sharedFiles
+                    sharedFiles,
+                    isFetchingFilesFolders,
+                    userLanguage
                 }) => {
 
     
@@ -36,6 +38,8 @@ const Content = ({
     const [actuallyShownFolders, setActuallyShownFolders] = useState([]);
     const [actuallyShownFiles, setActuallyShownFiles] = useState([]);
     const searchInput = useRef(null);
+
+    const content = contentFiles[userLanguage];
 
     useEffect(() => {
         let displayFolders = {};
@@ -63,9 +67,8 @@ const Content = ({
                                 shared={displayFolders[keys[i]].shared}
                                 currentFolderId={currentFolderId}
                                 setDisplayConfig={setDisplayConfig}
-                                disabled={disabled}
-                                setDisabled={setDisabled}
                                 searchInput={searchInput}
+                                setSearchBy={setSearchBy}
                         />
                     )
                 }
@@ -77,7 +80,7 @@ const Content = ({
         }else{
             setActuallyShownFolders(<div className='noFolders'>No Folders</div>)
         }
-    }, [displayConfig, sharedFolders, myFolders, searchBy, disabled])
+    }, [displayConfig, sharedFolders, myFolders, searchBy, isFetchingFilesFolders])
 
     useEffect(() => {
 
@@ -140,11 +143,11 @@ const Content = ({
                         
                     </div>
                     <div className={`folders ${folderLayoutConfig == 0 ? 'layoutType0' : 'layoutType1'}`}>
-                        {actuallyShownFolders}
+                        {!isFetchingFilesFolders ?  actuallyShownFolders : <Loading folders/>}
                     </div>      
                     
                     <div className='files'>
-                        <Title>Archivos Encontrados</Title>
+                        <Title>{content[0]}</Title>
                         <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
@@ -160,7 +163,7 @@ const Content = ({
                         {/* <Path></Path> */}
                     </div>
                     <div className='files'>
-                        <Title>Archivos Encontrados</Title>
+                        <Title>{content[0]}</Title>
                         <Files files={actuallyShownFiles} setPreview={setPreview}></Files>
                     </div>
                 </>
@@ -189,7 +192,13 @@ const Content = ({
 const mapStateToProps = (state) => ({
     currentFolderId: state.structure.currentFolderId,
     folderLayoutConfig: state.layoutConfigs.folderLayoutConfig,
-    overallLayout: state.layoutConfigs.overallLayout
+    overallLayout: state.layoutConfigs.overallLayout,
+    myFiles: state.filesFolders.myFiles,
+    sharedFiles: state.filesFolders.sharedFiles,
+    myFolders: state.filesFolders.myFolders,
+    sharedFolders: state.filesFolders.sharedFolders,
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders,
+    userLanguage: state.user.userLanguage
 })
 
 

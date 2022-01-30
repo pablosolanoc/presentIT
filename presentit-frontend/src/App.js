@@ -3,23 +3,46 @@ import './App.css';
 
 import {Route, Redirect, Switch} from 'react-router-dom';
 import { useEffect } from 'react';
-import HomePage from './pages/HomePage/HomePage.page';
+import SignInPage from './pages/SignInPage/SignInPage.page';
 import LandingPage from './pages/LandingPage/LandingPage.page';
+import HomePage from './pages/HomePage/HomePage.page';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage.page';
 import api from './services/api';
 import { connect } from 'react-redux';
-import {setCurrentUser} from './redux/user/user.actions';
+import {setCurrentUser, setUserLanguage, setCSRFToken} from './redux/user/user.actions';
+import Footer from './components/footer/footer.component';
 
-function App({setCurrentUser, currentUser}) {
+
+function App({setCurrentUser, setUserLanguage, currentUser, setCSRFToken, userLanguage}) {
 
   const handleUser = (response) => {
     
     if(response.status === 200){
       //There is no need to add access token or refresh token to the
       // use reducer because those  are in the cookies, just user info in the reducer
-      setCurrentUser(response.data);
+    
+      const data = response.data;
+    
+      setCurrentUser(data.info);
+      
+      
+    
+      setCSRFToken(data.csrfToken);
+      //In the case the language of the user i not spanish nor english, english is set as default
+      
+      if(data.info.locale === 'es' || data.info.locale === 'en'){
+        setUserLanguage(data.info.locale);
+      }else{
+        setUserLanguage('en');
+      }
+      
     }else{
       //if there is no user as the response was anything other than 200
       setCurrentUser(null);
+      //If there is no language the it defauls to english, otherwise it will be the last one the had when signed in
+      if(!userLanguage){
+        setUserLanguage('en');
+      }
     }
   }
 
@@ -38,6 +61,7 @@ function App({setCurrentUser, currentUser}) {
       
     }
     fetchUserData();
+    
     // setCurrentUser(null);
   }, [])
 
@@ -46,8 +70,11 @@ function App({setCurrentUser, currentUser}) {
     return (
       <div className="App">
         <Switch>
-          <Route  exact path="/">
+          <Route exact path="/">
               <HomePage/>
+          </Route>
+          <Route exact path="/privacy">
+            <PrivacyPolicyPage></PrivacyPolicyPage>
           </Route>
           <Redirect to="/" />
         </Switch>
@@ -58,12 +85,20 @@ function App({setCurrentUser, currentUser}) {
     return(
       <div className="App">
         <Switch>
-          <Route exact path="/">
-              <LandingPage/>
-              {/* <HomePage/> */}
+          <Route exact path="/signin">
+              <SignInPage/>
+              {/* <SignInPage/> */}
           </Route>
-          <Redirect to="/" />
+          <Route exact path="/home">
+              <LandingPage/>
+              {/* <SignInPage/> */}
+          </Route>
+          <Route exact path="/privacy">
+              <PrivacyPolicyPage></PrivacyPolicyPage>
+          </Route>
+          <Redirect to="/signin" />
         </Switch>
+        
       </div>
     )
   }
@@ -71,11 +106,14 @@ function App({setCurrentUser, currentUser}) {
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  userLanguage: state.user.userLanguage,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  setUserLanguage: (language) => dispatch(setUserLanguage(language)),
+  setCSRFToken: (CSRFToken) => dispatch(setCSRFToken(CSRFToken))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

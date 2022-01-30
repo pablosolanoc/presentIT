@@ -7,13 +7,12 @@ const SignIn = () => {
 
     return(
         <SignInStyle>
-            {/* <a href='http://localhost:8000/login/logout'>
-            </a> */}
-            <a href="http://localhost:8000/login">
+            <a href={`${process.env.REACT_APP_BACK_END_ROUTE}/login`}>
                 
                 <div className='buttonSignIn'>
                     <img src='/images/google.png' ></img>
-                    Sign In with Google
+                    <div className='text'>Sign In with Google</div>
+                    
                 </div>
             </a>
         </SignInStyle>

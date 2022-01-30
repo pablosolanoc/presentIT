@@ -8,9 +8,10 @@ var logger = require('morgan');
 var methodOverride = require("method-override");
 var debug = require("debug")("PRESENTIT:app");
 var cors = require('cors');
+var csrf = require('csurf');
 
 var session = require("express-session");
-
+var MemoryStore = require('memorystore')(session);
 
 
 // var logger2 = require('./logger').child({ from: 'ExampleOfUsingWinston' }); // You should reference the logger folder at the root of the repository depending on the level
@@ -27,7 +28,7 @@ var app = express();
 if(`${process.env.NODE_ENV}` === 'production'){
   
   debug('production');
-  app.use(cors({origin: "https://presentit.com", credentials: true})); // Use this in production
+  app.use(cors({origin: process.env.DOMAIN_NAME, credentials: true})); // Use this in production
   //hola
   var sessionConfig = {
     secret: process.env.SESSION_SECRET,
@@ -37,12 +38,15 @@ if(`${process.env.NODE_ENV}` === 'production'){
       httpOnly: true,
       // maxAge: 15 * 1000 ,
       maxAge: 60 * 1000 * 60 * 4 ,
-    }
+    },
+    store: new MemoryStore({
+      checkPeriod: 60 * 1000 * 60 * 4 ,
+    }),
   };
 }else{
   debug('development');
   app.use(
-    cors({origin: "http://localhost:3000", credentials: true, })); // Use this in local enviroment
+    cors({origin: process.env.DOMAIN_NAME, credentials: true, })); // Use this in local enviroment
   var sessionConfig = {
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
@@ -52,7 +56,6 @@ if(`${process.env.NODE_ENV}` === 'production'){
       // maxAge: 15 * 1000 ,
       maxAge: 60 * 1000 * 60 * 4,
     },
-    // store: sessionStore //Enable this on production
   };
   
 }
@@ -60,7 +63,7 @@ if(`${process.env.NODE_ENV}` === 'production'){
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// app.use(express.static(path.resolve(__dirname, `./client/build`)));
+app.use(express.static(path.resolve(__dirname, `./client/build`)));
 app.set('view engine', 'jade');
 
 // Loggers base if we are in a production enviroment or not
@@ -97,9 +100,13 @@ app.use(methodOverride("_method"));
 
 
 app.use(session(sessionConfig));
-app.use('/action', indexRouter);
-app.use('/users', usersRouter);
+
+app.use('/', indexRouter);
+// app.use('/action', indexRouter);
+app.use(csrf({cookie: true}))
 app.use('/login', loginRouter);
+app.use(csrf({cookie: true, ignoreMethods: ['HEAD', 'OPTIONS']}))
+app.use('/users', usersRouter);
 app.use('/drive', driveRouter);
 
 

@@ -5,6 +5,7 @@
  */
 
 require("dotenv").config();
+require("../variables");
 
 var app = require('../app');
 
@@ -36,7 +37,7 @@ var server = http.createServer(app);
 // this allows to set all tha actions that the server will receive
 const socketIO = connect(new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.DOMAIN_NAME,
     credentials: true
   }
 }));

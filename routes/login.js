@@ -14,7 +14,8 @@ router.get('/', function(req, res){
 
     let scopes = [
         "https://www.googleapis.com/auth/drive.readonly",
-        "https://www.googleapis.com/auth/userinfo.profile"
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
     ];
 
     //Geting redirect link so user can Sign In with Google
@@ -53,8 +54,6 @@ router.get('/redirect', function(req, res){
             if(err){
                 return res.redirect('/');
             }
-            
-            
             //We set the access token as the client credentials
             oauth2Client.setCredentials({access_token: `${token.access_token}`});
             //We get the API client to get user ifno
@@ -68,7 +67,8 @@ router.get('/redirect', function(req, res){
                   if(err) {
                      debug(err);
                   }else {
-                      const { id, given_name, family_name, picture } = response.data;
+                      const { id, given_name, family_name, picture, locale } = response.data;
+                      debug(response.data);
                       //Given the user info we search firestore to see if the user exists
                      const dbUsers = db.collection('users');
                      const specificUser = await dbUsers.doc(`${id}`).get();
@@ -77,7 +77,7 @@ router.get('/redirect', function(req, res){
                         refresh_token: token.refresh_token,
                         access_token: token.access_token,
                         info: {
-                            given_name, family_name, picture
+                            given_name, family_name, picture, locale
                         }
                      };
                      debug(req.session)
@@ -88,7 +88,8 @@ router.get('/redirect', function(req, res){
                         await newUser.set({
                             given_name,
                             family_name,
-                            picture
+                            picture,
+                            locale
                            });
                      }else {
                         debug('User already exists');
@@ -106,12 +107,13 @@ router.get('/info', function(req, res){
     // debug('Session: \n\n');
     // debug(req.session);
     try{
-        // debug('hello');
+        debug('hello\n\n');
         const {info} = req.session.user;
         // debug(info);
-        res.send(info);
+        res.send({info, csrfToken: req.csrfToken()});
+        debug('hello 22\n\n');
     }catch(error){
-        // debug(error);
+        debug(error);
         res.status(204);
         res.send('204: No user info');
     } 

@@ -1,14 +1,16 @@
 import React, {useRef, useEffect} from 'react';
 import {TableStyle} from  './files.styles';
+import Loading from '../loading/loading.component';
+import { connect } from 'react-redux';
 // import './files.styles.css';
 
-
+import {contentFiles} from '../../content/contentFiles';
 //Major Credit to DCode, you can find the sorting algorithm at this link
 // https://codepen.io/dcode-software/pen/zYGOrzK
 
-const Files = ({files, setPreview, searchBy}) => {
+const Files = ({files, setPreview, searchBy, isFetchingFilesFolders, userLanguage}) => {
 
-    
+    const content = contentFiles[userLanguage];
 
     let table = useRef();
     let headerRow = useRef();
@@ -64,7 +66,7 @@ const Files = ({files, setPreview, searchBy}) => {
                             </div>
                             <div className='nameText'>{file.name}</div>
                         </div>
-                        <div className='owner cell'>{file.mine ? 'No' : 'Yes'}</div>
+                        <div className='owner cell'>{file.mine ? 'No' : content[4]}</div>
                         <div className='lastOpen cell'>{getDate(file.viewedByMeTime)}</div>
                     </div>
                 )
@@ -82,20 +84,28 @@ const Files = ({files, setPreview, searchBy}) => {
             <div id="table-sortable" ref={(element) => {table = element}}>
                 <div id='header'>
                     <div className='row' ref={(element) => {headerRow = element}}>
-                        <div className='headerCell name cell' onClick={(element) => sortTableByColumn(0, getIfAsc(element, 0))}>Name</div>
-                        <div className='headerCell owner cell' onClick={(element) => sortTableByColumn(1, getIfAsc(element, 1))}>Shared With Me</div>
-                        <div className='headerCell lastOpen cell' onClick={(element) => sortTableByColumn(2, getIfAsc(element, 2))}>Last Open</div>
+                        <div className='headerCell name cell' onClick={(element) => sortTableByColumn(0, getIfAsc(element, 0))}>{content[1]}</div>
+                        <div className='headerCell owner cell' onClick={(element) => sortTableByColumn(1, getIfAsc(element, 1))}>{content[2]}</div>
+                        <div className='headerCell lastOpen cell' onClick={(element) => sortTableByColumn(2, getIfAsc(element, 2))}>{content[3]}</div>
                     </div>
                 </div>
-                <div id='body'>
-                    { 
-                        showFiles(files)  
-                    }
-                </div>
+                {!isFetchingFilesFolders ? 
+                    <div id='body'>
+                        { 
+                            showFiles(files)  
+                        }
+                    </div> 
+                    : <Loading files/>
+                }
             </div>
     </TableStyle>
     )
 
 }
 
-export default Files;
+const mapStateTopProps = (state) => ({
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders,
+    userLanguage: state.user.userLanguage
+})
+
+export default connect(mapStateTopProps, null)(Files);

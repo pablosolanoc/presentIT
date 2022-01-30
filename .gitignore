@@ -7,3 +7,7 @@ log.txt
 firebase/firebaseClient.js
 presentit-frontend/env.local
 variables.js
+
+
+uploadedForVerification.txt
+variables.js

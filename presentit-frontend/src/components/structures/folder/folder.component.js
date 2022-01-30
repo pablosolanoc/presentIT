@@ -8,7 +8,7 @@ import {ReactComponent as FolderOpenWithThings} from '../../../images/folderOpen
 import { connect } from 'react-redux';
 import { addToPath, setCurrentFolderId } from '../../../redux/structure/structure.actions.js';
 
-const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, disabled, setDisabled, searchInput}) => {
+const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurrentFolderId, currentFolderId, setDisplayConfig, folderLayoutConfig, searchInput, isFetchingFilesFolders, setSearchBy}) => {
 
     const FolderStyle = folderLayoutConfig === 0 ? FolderStyleBig : FolderStyleThin;
     
@@ -23,11 +23,10 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
         //make structure reducer change
         
 
-        //This line refers to the search value of the search bar, if a folder is cliked it is resetted to ''.
+        //This line refers to the search value of the search bar, if a folder is clicked it is resetted to ''.
         searchInput.current.value = '';
-        
-        // folder.current.setAttribute('disabled', true);
-        setDisabled(true);
+        //The term we are searching by also neede to be set to '' as filter is still applied if not
+        setSearchBy('');
 
         if(currentFolderId === 'root'){
             // setDisplayConfig(2);
@@ -51,7 +50,7 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
     // }, [])
     
     return(
-            <FolderStyle disabled={disabled} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={folderClicked}  mine={mine} ref={folder} >
+            <FolderStyle isFetchingFilesFolders={isFetchingFilesFolders} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={folderClicked}  mine={mine} ref={folder} >
                 <div className='logos'>
                     {!hover && <FolderNormal className='folderNormal'></FolderNormal>}
                     {hover && <FolderWhenHover className='folderNormal'></FolderWhenHover>}
@@ -82,7 +81,8 @@ const Folder = ({numberPresentations, name, shared, mine, id, addToPath, setCurr
 }
 
 const mapStateToProps = (state) => ({
-    folderLayoutConfig: state.layoutConfigs.folderLayoutConfig
+    folderLayoutConfig: state.layoutConfigs.folderLayoutConfig,
+    isFetchingFilesFolders: state.filesFolders.isFetchingFilesFolders
 })
 
 const mapDispatchToProps = (dispatch) => ({

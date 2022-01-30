@@ -4,8 +4,7 @@ import api, {getRequestAuthorized} from '../../services/api';
 import { Margins, Title } from '../../components/common.styles';
 import {Home} from './HomePage.styles';
 
-
-
+import {fetchFilesFoldersAsync} from '../../redux/filesFolders/filesFolders.actions';
 
 import SideBar from '../../components/sideBar/sideBar.component';
 
@@ -16,7 +15,7 @@ import Content from '../../components/content/content.component';
 import MyComponent from '../../components/presentationPreview/presentationPreview.component.js';
 // import SignIn from '../../components/sign-In/sign-In.component';
 
-const HomePage = ({currentFolderId, overallLayout}) => {
+const SignInPage = ({currentFolderId, overallLayout, fetchFilesFoldersAsync, CSRFToken}) => {
 
     
     const [myFiles, setMyFiles] = useState({});
@@ -30,51 +29,17 @@ const HomePage = ({currentFolderId, overallLayout}) => {
     const [myFolders, setMyFolders] = useState({});
     const [sharedFolders, setSharedFolders] = useState({});
 
-    const [disabled, setDisabled] = useState(false);
 
     // const [displayFolders, setisplay] = useState({});
 
     const [displayConfig, setDisplayConfig] = useState(1);
 
 
-    const setAll = (response) => {
-        console.log(response.data)
-        const {folders, files} = response.data;
-        
-
-        if( overallLayout === 1 ){
-            setMyFolders(folders.ownFolders);
-            setSharedFolders(folders.sharedFolders);
-        }
-
-        setMyFiles(files.ownFiles);
-        setSharedFiles(files.sharedFiles);
-        
-    }
-
-    
-
     useEffect(() => {
         
-        async function fetchData(){
-            let config = {
-                params: {
-                    displayConfig: displayConfig,
-                    overallLayout: overallLayout
-                },
-                headers: {
-                    folderid: currentFolderId
-                }
-            }
-            setDisabled(true);
-            await getRequestAuthorized('/drive/structure', setAll, config);
-            setDisabled(false);
-            
-        }
-        fetchData();
-        // console.log(structure);
-        // console.log(hola);
-    }, [currentFolderId, overallLayout]);
+        
+        fetchFilesFoldersAsync(displayConfig, overallLayout, currentFolderId, CSRFToken);
+    }, [currentFolderId, overallLayout, CSRFToken]);
 
     
 
@@ -97,15 +62,11 @@ const HomePage = ({currentFolderId, overallLayout}) => {
                     setDisplayConfig={setDisplayConfig}
                     fileId={fileId}
                     setFileId={setFileId}
-                    myFolders={myFolders}
-                    sharedFolders={sharedFolders}
-                    disabled={disabled}
-                    setDisabled={setDisabled}
+                   
                     setShowPreview={setShowPreview}
                     showPreview={showPreview}
                     setIsPDF={setIsPDF}
-                    myFiles={myFiles}
-                    sharedFiles={sharedFiles}
+                   
                 />
             </Home>
             <MyComponent setShowPreview={setShowPreview} showPreview={showPreview} fileId={fileId} isPDF={isPDF}></MyComponent>
@@ -116,9 +77,14 @@ const HomePage = ({currentFolderId, overallLayout}) => {
 
 const mapStateToProps = (state) => ({
     currentFolderId: state.structure.currentFolderId,
-    overallLayout: state.layoutConfigs.overallLayout
+    overallLayout: state.layoutConfigs.overallLayout,
+    CSRFToken: state.user.CSRFToken
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchFilesFoldersAsync: (displayConfig ,overallLayout, currentFolderId, CSRFToken) => dispatch(fetchFilesFoldersAsync(displayConfig ,overallLayout, currentFolderId, CSRFToken))
 })
 
 
 
-export default connect(mapStateToProps, null)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);

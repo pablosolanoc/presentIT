@@ -191,7 +191,7 @@ const allFilesCall = async (drive, displayConfig) => {
             if(!file.sharedWithMeTime){
                 fileInfo['mine'] = true;
                 ownFiles[`${file.id}`] = fileInfo;
-            }else if(displayConfig === '1'){
+            }else{
                 fileInfo['mine'] = false;
                 sharedFiles[`${file.id}`] = fileInfo;
             }

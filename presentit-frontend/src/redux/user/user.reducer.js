@@ -1,7 +1,9 @@
 import {UserActionTypes} from './user.types';
 
 const INITIAL_STATE = {
-    currentUser: null
+    currentUser: null,
+    userLanguage: 'es',
+    CSRFToken: null
 }
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -10,7 +12,17 @@ const cartReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentUser: action.payload
-            };
+            }
+        case UserActionTypes.SET_USER_LANGUAGE:
+            return {
+                ...state,
+                userLanguage: action.payload
+            }
+        case UserActionTypes.SET_CSRF_TOKEN:
+            return {
+                ...state,
+                CSRFToken: action.payload
+            }
         case UserActionTypes.SET_CURRENT_ACCESS_TOKEN:
             return {
                 ...state,
@@ -21,6 +33,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 refreshToken: action.payload
             }
+        
         default:
             return state;
     }
