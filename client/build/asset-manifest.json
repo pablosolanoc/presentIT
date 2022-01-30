@@ -1,18 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.6cf2a2f7.chunk.css",
-    "main.js": "/static/js/main.7c9089b8.chunk.js",
-    "main.js.map": "/static/js/main.7c9089b8.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.005a869a.js",
-    "runtime-main.js.map": "/static/js/runtime-main.005a869a.js.map",
-    "static/js/2.341d45db.chunk.js": "/static/js/2.341d45db.chunk.js",
-    "static/js/2.341d45db.chunk.js.map": "/static/js/2.341d45db.chunk.js.map",
-    "static/js/3.83ccb0f4.chunk.js": "/static/js/3.83ccb0f4.chunk.js",
-    "static/js/3.83ccb0f4.chunk.js.map": "/static/js/3.83ccb0f4.chunk.js.map",
+    "main.css": "/static/css/main.0176d4c5.chunk.css",
+    "main.js": "/static/js/main.ad5c4547.chunk.js",
+    "main.js.map": "/static/js/main.ad5c4547.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.34d2a0a6.js",
+    "runtime-main.js.map": "/static/js/runtime-main.34d2a0a6.js.map",
+    "static/js/2.cd31cd5c.chunk.js": "/static/js/2.cd31cd5c.chunk.js",
+    "static/js/2.cd31cd5c.chunk.js.map": "/static/js/2.cd31cd5c.chunk.js.map",
+    "static/js/3.7fc4d980.chunk.js": "/static/js/3.7fc4d980.chunk.js",
+    "static/js/3.7fc4d980.chunk.js.map": "/static/js/3.7fc4d980.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.6cf2a2f7.chunk.css.map": "/static/css/main.6cf2a2f7.chunk.css.map",
-    "static/js/2.341d45db.chunk.js.LICENSE.txt": "/static/js/2.341d45db.chunk.js.LICENSE.txt",
+    "static/css/main.0176d4c5.chunk.css.map": "/static/css/main.0176d4c5.chunk.css.map",
+    "static/js/2.cd31cd5c.chunk.js.LICENSE.txt": "/static/js/2.cd31cd5c.chunk.js.LICENSE.txt",
     "static/media/index.css": "/static/media/Poppins-Regular.8081832f.ttf",
+    "static/media/arrowLeft.89879f66.svg": "/static/media/arrowLeft.89879f66.svg",
+    "static/media/arrowRight.2d9e037d.svg": "/static/media/arrowRight.2d9e037d.svg",
     "static/media/folderNormal.a46515af.svg": "/static/media/folderNormal.a46515af.svg",
     "static/media/folderOpen.8ac706eb.svg": "/static/media/folderOpen.8ac706eb.svg",
     "static/media/folderOpenWithThings.27ae1b93.svg": "/static/media/folderOpenWithThings.27ae1b93.svg",
@@ -25,9 +27,9 @@
     "static/media/square.1c3910a6.svg": "/static/media/square.1c3910a6.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.005a869a.js",
-    "static/js/2.341d45db.chunk.js",
-    "static/css/main.6cf2a2f7.chunk.css",
-    "static/js/main.7c9089b8.chunk.js"
+    "static/js/runtime-main.34d2a0a6.js",
+    "static/js/2.cd31cd5c.chunk.js",
+    "static/css/main.0176d4c5.chunk.css",
+    "static/js/main.ad5c4547.chunk.js"
   ]
 }
