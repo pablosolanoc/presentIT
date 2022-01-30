@@ -23,8 +23,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run build-frontenduno
-    - run: npm run build-frontenddos
-    - run: npm run build-frontendtres
-    - run: npm run copy-frontend
-    - run: npm i
+    - run: |
+      cd presentit-frontend
+      echo REACT_APP_BACK_END_ROUTE=https://www.presentit.app > .env.local
+      npm ci
+      pm run build
+
