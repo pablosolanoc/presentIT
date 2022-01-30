@@ -25,6 +25,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd presentit-frontend
     - run: cd presentit-frontend; echo REACT_APP_BACK_END_ROUTE=https://www.presentit.app > .env.local
+    - run: pwd
     - run: cd presentit-frontend; rm -rf node_modules
     - run: cd presentit-frontend; yarn
     - run: cd presentit-frontend; yarn run build
