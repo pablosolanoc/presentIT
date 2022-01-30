@@ -24,6 +24,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn i
-    - run: yarn build-frontend
-    - run: yarn copy-frontend
+    - run: npm i
+    - run: npm run build-frontend
+    - run: npm run copy-frontend
