@@ -5,9 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon --watch ./",
-    "build-frontenduno": "cd presentit-frontend; echo \"REACT_APP_BACK_END_ROUTE=https://www.presentit.app\" > .env.local",
-    "build-frontenddos": "cd presentit-frontend; npm ci",
-    "build-frontendtres": "cd presentit-frontend; npm run build",
+    "build-frontend": "cd presentit-frontend; echo \"REACT_APP_BACK_END_ROUTE=https://www.presentit.app\" > .env.local; npm ci; npm run build",
     "copy-frontend": "cd client; rm -rf build; cp -R ../presentit-frontend/build ./ "
     
   },
