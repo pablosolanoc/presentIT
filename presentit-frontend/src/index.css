@@ -20,6 +20,7 @@ body {
   
    font-family: "PoppinsRegular";
   
+   overflow-wrap: break-word;
 }
 
 code {

@@ -23,4 +23,10 @@ const Title = styled.span`
     align-self: start;
 `;
 
+export const AlignWithFooter = styled.div`
+    display: flex;
+    flex-direction: column;
+    /* background-color: green ; */
+`;
+
 export {Margins, Title};

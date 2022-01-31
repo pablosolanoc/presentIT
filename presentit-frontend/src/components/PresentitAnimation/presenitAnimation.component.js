@@ -94,7 +94,7 @@ const PresentitAnimation = () => {
                 <div className='title op'>
                 <div className='logo op hoverOnImage'>
                     <Logo className="logoImage" ></Logo>
-                    {/* <Link to="/signin"><div className="signInHover">Sign In</div></Link> */}
+                    <Link to="/signin"><div className="signInHover">Sign In</div></Link>
                 </div>
                 </div>
             <div className='cuerpo '>
@@ -135,7 +135,7 @@ const PresentitAnimation = () => {
                 <div className='title op'>
                 <div className='logo op hoverOnImage'>
                     <Logo className="logoImage" ></Logo>
-                    {/* <Link to="/signin"><div className="signInHover">Sign In</div></Link> */}
+                    <Link to="/signin"><div className="signInHover">Sign In</div></Link>
                 </div>
                 </div>
                 <div className='cuerpo '>

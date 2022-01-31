@@ -9,6 +9,8 @@ const FooterStyle = styled.div`
 
     background-color: #020202;
     color: #ffff;
+    
+
 
     .content{
         /* width: 100%; */

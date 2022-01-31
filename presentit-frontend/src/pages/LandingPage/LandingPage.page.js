@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import LandingPageStyles from './LandingPage.styles';
 
+import {AlignWithFooter} from '../../components/common.styles';
+
 import PresentitAnimation from '../../components/PresentitAnimation/presenitAnimation.component';
 import {ReactComponent as Logo} from '../../images/logo.svg';
 
@@ -18,7 +20,7 @@ const LandingPage = ({userLanguage}) => {
     const content = contentLandingPage[userLanguage];    
 
     return(
-        <>
+        <AlignWithFooter>
             <LandingPageStyles>
                 <div className="centralPiece">
                     <div className='info'>
@@ -56,8 +58,8 @@ const LandingPage = ({userLanguage}) => {
                 </div>
                 
             </LandingPageStyles>
-            <Footer></Footer>
-        </>
+            <Footer></Footer>    
+        </AlignWithFooter>
     )
 }
 

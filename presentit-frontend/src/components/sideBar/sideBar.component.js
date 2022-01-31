@@ -9,6 +9,8 @@ import {ReactComponent as Logo} from '../../images/logo.svg';
 
 import { contentSideBar } from "../../content/contentSideBar";
 
+import { Link } from "react-router-dom";
+
 const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayout, currentFolderId, setPathFrom, userLanguage}) => {
 
     const content = contentSideBar[userLanguage];
@@ -27,8 +29,9 @@ const SideBar = ({setDisplayConfig, setOverallLayout, displayConfig, overallLayo
     return(
         <SideBarStyle>
             <div className='logo' >
-                <Logo className='logoImage'></Logo>
+                <Link to='/' onClick={() => window.location.reload()}><Logo className='logoImage'></Logo></Link>
             </div>
+
             <div className={`config ${displayConfig === 2 ? 'selected' : ''}`} onClick={() => changeTypeFolder(2)}>{content[0]}</div>
             <div className={`config ${displayConfig === 0 ? 'selected' : ''}`} onClick={() => changeTypeFolder(0)}>{content[1]}</div>
             <div className={`config ${displayConfig === 1 ? 'selected' : ''}`} onClick={() => changeTypeFolder(1)}>{content[2]}</div>

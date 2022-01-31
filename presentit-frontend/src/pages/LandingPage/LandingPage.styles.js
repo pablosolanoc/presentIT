@@ -4,7 +4,7 @@ import styled from "styled-components";
 const LandingPageStyles = styled.div`
 
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 
     justify-self: center;
     /* background-color: black; */
@@ -12,13 +12,16 @@ const LandingPageStyles = styled.div`
     display: grid;
 
     grid-template-columns: repeat(8, 1fr);
+    
 
     justify-content: center;
     align-items: center;
 
+    flex-direction: column;
+
     .centralPiece{
         grid-column: 2 / span 6;
-        height: auto;
+        /* height: auto; */
         /* background-color: red; */
 
         display: flex;
@@ -116,9 +119,8 @@ const LandingPageStyles = styled.div`
             }
         }
     }
-
-    
-
 `;
+
+
 
 export default LandingPageStyles;
