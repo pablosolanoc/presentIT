@@ -16,7 +16,7 @@ const PrivacyPolicyPage = () => {
                 
                 <h1>Privacy Policy for presentIT</h1>
 
-                <p>At presentIT, accessible from https://presentit.herokuapp.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by presentIT and how we use it.</p>
+                <p>At presentIT, accessible from https://presentit.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by presentIT and how we use it.</p>
 
                 <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
 
