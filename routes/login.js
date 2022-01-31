@@ -119,9 +119,7 @@ router.get('/info', function(req, res){
     } 
 });
 
-router.get('/jaja', function(req, res){
-    res.send('HOla men como estas');
-});
+
 
 router.get('/logout', function(req, res){
     req.session.destroy();
