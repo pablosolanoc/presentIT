@@ -108,6 +108,7 @@ router.get('/info', function(req, res){
     // debug(req.session);
     try{
         debug('hello\n\n');
+        debug(req.session);
         const {info} = req.session.user;
         // debug(info);
         res.send({info, csrfToken: req.csrfToken()});
@@ -119,9 +120,6 @@ router.get('/info', function(req, res){
     } 
 });
 
-router.get('/jaja', function(req, res){
-    res.send('HOla men como estas');
-});
 
 router.get('/logout', function(req, res){
     req.session.destroy();
