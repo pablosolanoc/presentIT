@@ -41,7 +41,7 @@ const SignInStyle = styled.div`
         }
     }
     .name{
-        
+        overflow-wrap: normal;
         /* grid-row: 3; */
         font-size: 7rem;
         @media(max-width: 769px){
