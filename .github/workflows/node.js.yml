@@ -23,5 +23,5 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn; pm2 restart www; pwd
+    - run: yarn; pm2 delete www; pm2 start ./bin/www ; pwd
 
